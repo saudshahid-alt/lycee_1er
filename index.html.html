@@ -1,0 +1,912 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Plateforme interactive de révision de toutes les spécialités de Première générale, avec vidéos, jeux et aide IA.">
+<title>Révisions Première 2026 — Cours, vidéos, jeux et aide IA</title>
+<style>
+:root{
+  --bg:#f3f6fb;--surface:#fff;--surface2:#eef3fb;--text:#172033;--muted:#5e6a80;
+  --line:#d8e0ed;--primary:#2458d5;--primary2:#143d9c;--green:#18805d;--orange:#eb852a;
+  --red:#c83d4b;--shadow:0 12px 30px rgba(25,45,82,.10);--radius:18px
+}
+[data-theme="dark"]{
+  --bg:#0f1521;--surface:#192231;--surface2:#222d41;--text:#f4f7fc;--muted:#b8c2d2;
+  --line:#354156;--primary:#7da5ff;--primary2:#b5caff;--green:#5bd7a7;--orange:#ffb45e;
+  --red:#ff7f8a;--shadow:0 12px 30px rgba(0,0,0,.28)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.58}
+button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}a{color:var(--primary2)}
+header{position:sticky;top:0;z-index:100;min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px clamp(12px,4vw,34px);background:color-mix(in srgb,var(--surface) 93%,transparent);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}.logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;color:#fff;font-weight:950;background:linear-gradient(135deg,var(--primary),var(--orange));box-shadow:var(--shadow)}.brand b{display:block}.brand small{display:block;color:var(--muted);white-space:nowrap}.actions{display:flex;gap:7px}.icon-btn{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;padding:9px 11px;font-weight:850}
+.shell{width:min(1320px,calc(100% - 20px));margin:18px auto 50px;display:grid;grid-template-columns:255px minmax(0,1fr);gap:20px;align-items:start}
+.sidebar{position:sticky;top:86px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);max-height:calc(100vh - 100px);overflow:auto}
+.nav{width:100%;border:0;background:transparent;color:var(--text);text-align:left;padding:10px 11px;border-radius:11px;font-weight:850;margin:2px 0}.nav:hover,.nav.active{background:var(--surface2);color:var(--primary2)}
+.progress-mini{margin-top:12px;padding:12px;background:var(--surface2);border-radius:13px}.track{height:10px;border-radius:999px;background:var(--line);overflow:hidden;margin:8px 0}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--green));transition:width .25s}
+main{min-width:0}.page{display:none}.page.active{display:block}
+.hero{padding:clamp(22px,5vw,45px);border:1px solid var(--line);border-radius:25px;background:radial-gradient(circle at top right,color-mix(in srgb,var(--orange) 20%,transparent),transparent 38%),linear-gradient(135deg,var(--surface),var(--surface2));box-shadow:var(--shadow);margin-bottom:18px}
+h1,h2,h3,h4{line-height:1.2}h1{font-size:clamp(2rem,5vw,3.5rem);margin:.1em 0 .35em}h2{font-size:clamp(1.4rem,3vw,2rem);margin:0 0 10px}h3{font-size:1.15rem;margin:0 0 9px}h4{font-size:1.04rem;margin:0 0 8px}.lead{font-size:1.08rem;color:var(--muted);max-width:850px}.muted{color:var(--muted)}
+.pills,.filters,.selected-row{display:flex;flex-wrap:wrap;gap:8px}.pill{display:inline-block;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 11px;font-weight:850;font-size:.9rem}
+.grid{display:grid;gap:15px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.subject-card{display:flex;flex-direction:column;min-height:248px;position:relative;overflow:hidden}.subject-card:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:var(--subject)}
+.subject-icon{width:51px;height:51px;border-radius:15px;display:grid;place-items:center;background:color-mix(in srgb,var(--subject) 12%,var(--surface));font-size:1.45rem;margin-bottom:14px}
+.subject-card .btn{margin-top:auto;align-self:flex-start}.subject-note{font-size:.78rem;font-weight:900;color:var(--subject);margin-bottom:5px}
+.btn{border:0;border-radius:12px;padding:10px 14px;background:var(--primary);color:#fff;font-weight:900}.btn.secondary{background:var(--surface2);color:var(--text);border:1px solid var(--line)}.btn.subject{background:var(--subject)}
+.choice-btn{position:absolute;right:12px;top:13px;width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-weight:950}.choice-btn.chosen{background:var(--subject);border-color:var(--subject);color:#fff}
+.searchbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;margin:14px 0}.searchbar input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:var(--surface);color:var(--text);outline:none}.searchbar input:focus{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 18%,transparent)}
+.notice{padding:13px 15px;border-left:5px solid var(--orange);background:color-mix(in srgb,var(--orange) 10%,var(--surface));border-radius:12px;margin:13px 0}
+.subject-hero{border-top:6px solid var(--subject)}.chapter{border:1px solid var(--line);border-radius:16px;background:var(--surface);margin:12px 0;overflow:hidden}.chapter summary{list-style:none;padding:15px 17px;background:var(--surface2);cursor:pointer;font-weight:950;display:flex;justify-content:space-between;gap:10px}.chapter summary::-webkit-details-marker{display:none}.chapter summary:after{content:"＋"}.chapter[open] summary:after{content:"−"}.chapter-body{padding:17px}
+.lesson-intro{font-size:1.03rem}.key-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:13px 0}.key{padding:11px 12px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)}
+.method{padding:13px 14px;border-left:5px solid var(--subject);border-radius:12px;background:color-mix(in srgb,var(--subject) 9%,var(--surface));margin:12px 0}.example{padding:13px 14px;border-left:5px solid var(--green);border-radius:12px;background:color-mix(in srgb,var(--green) 9%,var(--surface));margin:12px 0}
+.chapter-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.done-label{display:flex;gap:8px;align-items:center;font-weight:850}.done-label input{transform:scale(1.18)}
+.filter-btn{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:999px;padding:8px 12px;font-weight:850}.filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.quiz-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-weight:850;margin-bottom:10px}.question{font-size:1.18rem;font-weight:950;margin-bottom:12px}.options{display:grid;gap:9px}.option{width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;padding:11px 12px;font-weight:850}.option.correct{background:color-mix(in srgb,var(--green) 15%,var(--surface));border-color:var(--green)}.option.wrong{background:color-mix(in srgb,var(--red) 14%,var(--surface));border-color:var(--red)}
+.quiz-panel{position:fixed;inset:0;z-index:300;background:rgba(5,10,20,.72);display:grid;place-items:center;padding:14px}.quiz-box{width:min(720px,100%);max-height:92vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 25px 70px rgba(0,0,0,.35)}
+.quiz-head{display:flex;justify-content:space-between;gap:12px;align-items:start}.close-btn{border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:11px;padding:8px 11px;font-weight:900}
+.score-card{padding:18px;border-radius:15px;background:var(--surface2);font-size:1.15rem;font-weight:950;text-align:center}
+.selection-box{padding:17px;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:var(--shadow);margin:15px 0}.selection-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-weight:900}
+.stat{padding:15px;border-radius:15px;background:var(--surface2)}.stat strong{font-size:1.55rem;display:block}.source-list{display:grid;gap:10px}.source-item{padding:13px;border:1px solid var(--line);border-radius:13px;background:var(--surface)}
+.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
+@media(max-width:1000px){.shell{grid-template-columns:1fr}.sidebar{position:static;display:flex;gap:5px;overflow:auto;max-height:none}.nav{width:auto;white-space:nowrap}.progress-mini{display:none}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.g2,.g3,.g4,.key-list{grid-template-columns:1fr}.brand small{display:none}.searchbar{grid-template-columns:1fr}.subject-card{min-height:220px}.shell{width:calc(100% - 12px);margin-top:8px}.card{padding:15px}.hero{padding:22px 17px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+.home-start{
+  display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);
+  gap:18px;align-items:stretch;margin-top:18px
+}
+.home-start .card{display:flex;flex-direction:column;justify-content:center}
+.home-cta{font-size:1.08rem;padding:14px 20px}
+.feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.feature-card{min-height:170px}.feature-icon{font-size:1.8rem;margin-bottom:10px}
+.study-steps{counter-reset:step;display:grid;gap:11px}
+.study-step{position:relative;padding:13px 13px 13px 52px;border-radius:13px;background:var(--surface2);border:1px solid var(--line)}
+.study-step:before{counter-increment:step;content:counter(step);position:absolute;left:12px;top:12px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--primary);color:#fff;font-weight:950}
+.deep-dive{margin:14px 0;border:1px solid var(--line);border-radius:15px;overflow:hidden;background:var(--surface)}
+.deep-dive summary{list-style:none;padding:13px 15px;background:color-mix(in srgb,var(--subject) 10%,var(--surface2));font-weight:950;cursor:pointer}
+.deep-dive summary::-webkit-details-marker{display:none}
+.deep-content{padding:15px}.explain-step{padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface2);margin:8px 0}
+.explain-step b{display:block;color:var(--subject);margin-bottom:4px}
+.guided-example{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:11px 0}
+.guided-example div{padding:11px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)}
+.illustration-box{margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,var(--surface),var(--surface2))}
+.illustration-box svg{width:100%;height:auto;max-height:260px;display:block}
+.media-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.7fr);gap:14px;margin:14px 0}
+.video-card{border:1px solid var(--line);border-radius:15px;padding:14px;background:var(--surface)}
+.video-wrap{position:relative;padding-top:56.25%;border-radius:13px;overflow:hidden;background:#0d1320;margin-top:10px}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:9px}
+.video-tools input{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:11px;background:var(--surface);color:var(--text)}
+.video-note{font-size:.86rem;color:var(--muted)}
+.mini-game{border:1px solid var(--line);border-radius:15px;padding:14px;background:color-mix(in srgb,var(--subject) 7%,var(--surface))}
+.game-answer{margin-top:10px;padding:11px;border-radius:11px;background:var(--surface2);border:1px solid var(--line)}
+.media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.game-board{min-height:270px}.game-controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.game-log{min-height:90px;padding:12px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)}
+.number-display{font-size:2.1rem;font-weight:950;text-align:center;padding:18px}
+.memory-words{display:flex;flex-wrap:wrap;gap:8px;min-height:55px}.memory-word{padding:8px 11px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-weight:900}
+.video-library{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.ai-fab{position:fixed;right:20px;bottom:20px;z-index:500;border:0;border-radius:999px;padding:13px 17px;background:linear-gradient(135deg,var(--primary),#7047d5);color:#fff;font-weight:950;box-shadow:0 14px 35px rgba(35,55,130,.35)}
+.ai-panel{position:fixed;right:18px;bottom:78px;z-index:500;width:min(390px,calc(100vw - 28px));max-height:75vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:0 24px 65px rgba(0,0,0,.28)}
+.ai-panel textarea,.ai-panel select{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:11px;background:var(--surface);color:var(--text);margin:6px 0 10px}
+.ai-context{font-size:.86rem;padding:9px;border-radius:10px;background:var(--surface2);margin-bottom:9px}
+.ai-actions{display:flex;gap:8px;flex-wrap:wrap}.ai-actions .btn{flex:1}
+.ai-disclaimer{font-size:.78rem;color:var(--muted);margin-top:9px}
+@media(max-width:900px){
+  .home-start,.media-row{grid-template-columns:1fr}
+  .feature-grid,.video-library{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:650px){
+  .feature-grid,.video-library,.media-grid,.guided-example{grid-template-columns:1fr}
+  .video-tools{grid-template-columns:1fr}.ai-fab{right:12px;bottom:12px}
+}
+
+.reasoning-svg{width:100%;height:auto;max-height:230px;display:block}
+.reasoning-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.reasoning-item{padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.reasoning-item b{display:block;color:var(--subject);margin-bottom:4px}
+.ai-panel{width:min(470px,calc(100vw - 28px))}
+.ai-status{padding:10px 11px;border-radius:11px;background:var(--surface2);border:1px solid var(--line);font-size:.88rem;margin:8px 0}
+.ai-progress{height:8px;border-radius:999px;background:var(--line);overflow:hidden;margin:8px 0 12px}
+.ai-progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--green));transition:width .2s}
+.ai-chat{display:flex;flex-direction:column;gap:9px;min-height:170px;max-height:330px;overflow:auto;padding:10px;border:1px solid var(--line);border-radius:13px;background:var(--surface2);margin:10px 0}
+.ai-msg{max-width:92%;padding:10px 12px;border-radius:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.ai-msg.assistant{align-self:flex-start;background:var(--surface);border:1px solid var(--line)}
+.ai-msg.user{align-self:flex-end;background:var(--primary);color:#fff}
+.ai-msg.error{align-self:flex-start;background:color-mix(in srgb,var(--red) 13%,var(--surface));border:1px solid var(--red)}
+.ai-model-note{font-size:.78rem;color:var(--muted);margin:7px 0}
+.ai-panel textarea{resize:vertical}
+.ai-send-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
+.ai-send-row textarea{margin:0}
+.ai-send-row .btn{height:44px}
+@media(max-width:650px){
+  .reasoning-legend{grid-template-columns:1fr}
+  .ai-send-row{grid-template-columns:1fr}
+}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">1G</div><div><b>Révisions Première 2026</b><small>Toutes les spécialités de la voie générale</small></div></div>
+  <div class="actions"><button class="icon-btn" id="themeBtn">☾ Thème</button><button class="icon-btn" id="resetBtn">↺ Progression</button></div>
+</header>
+<div class="shell">
+<aside class="sidebar" aria-label="Navigation">
+  <button class="nav active" data-page="home">Accueil</button>
+  <button class="nav" data-page="subjects">Toutes les spécialités</button>
+  <button class="nav" data-page="myPath">Mes 3 spécialités</button>
+  <button class="nav" data-page="media">Vidéos et jeux</button>
+  <button class="nav" data-page="quizzes">Quiz par chapitre</button>
+  <button class="nav" data-page="progress">Progression</button>
+  <button class="nav" data-page="sources">Sources officielles</button>
+  <div class="progress-mini"><b>Progression globale</b><div class="track"><div class="fill" id="miniFill"></div></div><small id="miniText">0 %</small></div>
+</aside>
+<main>
+<section class="page active" id="home">
+  <div class="hero">
+    <span class="pill">Cours détaillés · vidéos · jeux · aide IA</span>
+    <h1>Révise à ton rythme, sans te perdre.</h1>
+    <p class="lead">Choisis une spécialité seulement quand tu en as besoin. L’accueil reste simple : cours expliqués étape par étape, exemples guidés, vidéos YouTube, illustrations et défis interactifs.</p>
+    <div class="pills"><span class="pill">13 spécialités</span><span class="pill">79 chapitres</span><span class="pill">237 questions</span><span class="pill">Aide IA en bas à droite</span></div>
+  </div>
+
+  <div class="home-start">
+    <article class="card">
+      <span class="pill" style="width:max-content">Commencer</span>
+      <h2 style="margin-top:12px">Accéder aux spécialités</h2>
+      <p class="muted">La liste complète n’est plus affichée sur l’accueil. Utilise ce bouton pour ouvrir le catalogue, rechercher une matière et sélectionner tes trois spécialités.</p>
+      <button class="btn home-cta" id="homeSubjectsBtn">Voir toutes les spécialités →</button>
+    </article>
+    <article class="card">
+      <h2>Méthode conseillée</h2>
+      <div class="study-steps">
+        <div class="study-step">Lis l’explication détaillée du chapitre.</div>
+        <div class="study-step">Observe le schéma et l’exemple guidé.</div>
+        <div class="study-step">Regarde une vidéo ou ajoute celle de ton professeur.</div>
+        <div class="study-step">Termine par le mini-jeu et le quiz.</div>
+      </div>
+    </article>
+  </div>
+
+  <div class="feature-grid">
+    <article class="card feature-card"><div class="feature-icon">🎬</div><h3>Vidéos dans le site</h3><p class="muted">Lecteurs YouTube intégrés et possibilité de coller n’importe quel lien YouTube dans un chapitre.</p><button class="btn secondary" id="homeMediaBtn">Voir les vidéos</button></article>
+    <article class="card feature-card"><div class="feature-icon">🧩</div><h3>Jeux interactifs</h3><p class="muted">Nombre mystère, mémoire, association de notions et défis rapides.</p><button class="btn secondary" id="homeGamesBtn">Jouer et réviser</button></article>
+    <article class="card feature-card"><div class="feature-icon">✨</div><h3>Une notion reste floue ?</h3><p class="muted">Le bouton « Aide IA » reste accessible en bas à droite et répond directement dans le site avec le contexte du chapitre.</p><button class="btn secondary" id="homeAiBtn">Ouvrir l’aide IA</button></article>
+  </div>
+  <div class="notice"><b>Connexion Internet :</b> elle est nécessaire pour les vidéos YouTube et pour télécharger le modèle IA lors de sa première utilisation. Ensuite, les réponses sont générées directement dans le navigateur.</div>
+</section>
+
+<section class="page" id="subjects">
+  <div class="hero"><span class="pill">Catalogue complet</span><h1>Toutes les spécialités</h1><p class="lead">Recherche une matière ou une notion. Le bouton ★ ajoute la spécialité à ton parcours personnel, avec un maximum de trois choix.</p></div>
+  <div class="searchbar"><input id="subjectSearch" placeholder="Rechercher : génétique, démocratie, Python, théâtre…"><button class="btn secondary" id="clearSearch">Effacer</button></div>
+  <div class="grid g3" id="subjectCards"></div>
+</section>
+
+<section class="page" id="myPath">
+  <div class="hero"><span class="pill">Parcours personnalisé</span><h1>Mes 3 spécialités</h1><p class="lead">Sélectionne jusqu’à trois spécialités. Le site crée une vue concentrée sur ton parcours et un quiz global adapté.</p></div>
+  <div class="selection-box"><h2>Sélection actuelle</h2><div class="selected-row" id="selectedChips"></div></div>
+  <div class="grid g3" id="mySubjectCards"></div>
+  <div class="card" style="margin-top:16px"><h2>Quiz de mon parcours</h2><p class="muted">Dix questions tirées uniquement de tes spécialités sélectionnées.</p><button class="btn" id="pathQuizBtn">Lancer le quiz de mon parcours</button></div>
+</section>
+
+<section class="page" id="subjectView">
+  <div id="subjectContent"></div>
+</section>
+
+
+<section class="page" id="media">
+  <div class="hero">
+    <span class="pill">Apprendre autrement</span>
+    <h1>Vidéos et jeux interactifs</h1>
+    <p class="lead">Les vidéos sont lues depuis YouTube. Les jeux utilisent les notions des 79 chapitres du site.</p>
+  </div>
+
+  <h2>Vidéos YouTube intégrées</h2>
+  <div class="video-library">
+    <article class="video-card">
+      <h3>Python et programmation</h3>
+      <p class="muted">Une playlist pour consolider les bases utiles en NSI.</p>
+      <div class="video-wrap"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/videoseries?list=PLEiEAq2VkUUKoW1o-A-VEmkoGKSC26i_I" title="Playlist Python" allowfullscreen></iframe></div>
+    </article>
+    <article class="video-card">
+      <h3>Langues et expression orale</h3>
+      <p class="muted">Ressources Cambridge pour travailler l’expression et l’interculturel.</p>
+      <div class="video-wrap"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/videoseries?list=PLpmCHL8PnXq97zO9Q-XdFSB5CcTtEc3-G" title="Playlist Cambridge English" allowfullscreen></iframe></div>
+    </article>
+    <article class="video-card">
+      <h3>Musique et culture francophone</h3>
+      <p class="muted">Une sélection musicale exploitable en LLCER et en Arts.</p>
+      <div class="video-wrap"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/videoseries?list=PLOEscDhei4DYZQlRcLv0Lp9mMriVAkv7k" title="Playlist musique francophone" allowfullscreen></iframe></div>
+    </article>
+  </div>
+  <div class="notice"><b>Pour toutes les autres notions :</b> ouvre un chapitre. Un lecteur permet de coller directement le lien YouTube choisi par ton professeur ou trouvé pendant tes recherches.</div>
+
+  <h2 style="margin-top:24px">Mini-jeux</h2>
+  <div class="media-grid">
+    <article class="card game-board">
+      <h3>🔎 Nombre mystère — méthode dichotomique</h3>
+      <p class="muted">Trouve le nombre en réduisant l’intervalle le plus vite possible.</p>
+      <div class="number-display" id="mysteryDisplay">1 à 100</div>
+      <div class="game-controls">
+        <input id="mysteryGuess" type="number" min="1" max="100" placeholder="Ta proposition" style="padding:10px;border:1px solid var(--line);border-radius:11px;background:var(--surface);color:var(--text)">
+        <button class="btn" id="mysteryTry">Tester</button>
+        <button class="btn secondary" id="mysteryReset">Nouveau nombre</button>
+      </div>
+      <div class="game-log" id="mysteryLog">Commence idéalement par 50.</div>
+    </article>
+
+    <article class="card game-board">
+      <h3>🧠 Mémoire express</h3>
+      <p class="muted">Mémorise cinq notions en huit secondes, puis écris celles dont tu te souviens.</p>
+      <div class="memory-words" id="memoryWords"></div>
+      <div class="game-controls"><button class="btn" id="memoryStart">Lancer</button></div>
+      <textarea id="memoryAnswer" rows="3" placeholder="Écris les notions mémorisées…" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:11px;background:var(--surface);color:var(--text)"></textarea>
+      <button class="btn secondary" id="memoryCheck" style="margin-top:8px">Vérifier</button>
+      <div class="game-log" id="memoryResult">Le résultat apparaîtra ici.</div>
+    </article>
+
+    <article class="card game-board">
+      <h3>🎯 Associe la notion</h3>
+      <p class="muted">Choisis la spécialité correspondant à l’affirmation.</p>
+      <div class="question" id="matchQuestion">Clique sur « Nouvelle question ».</div>
+      <div class="options" id="matchOptions"></div>
+      <div class="game-controls"><button class="btn" id="matchNew">Nouvelle question</button></div>
+      <div class="game-log" id="matchResult">Score : 0</div>
+    </article>
+
+    <article class="card game-board">
+      <h3>⚡ Défi vrai ou faux</h3>
+      <p class="muted">Une affirmation est tirée d’un chapitre du programme.</p>
+      <div class="question" id="tfQuestion">Clique sur « Nouvelle affirmation ».</div>
+      <div class="game-controls"><button class="btn" id="tfTrue">Vrai</button><button class="btn secondary" id="tfFalse">Faux</button><button class="btn secondary" id="tfNew">Nouvelle affirmation</button></div>
+      <div class="game-log" id="tfResult">Score : 0</div>
+    </article>
+  </div>
+</section>
+
+<section class="page" id="quizzes">
+  <div class="hero"><span class="pill">Quiz ciblés</span><h1>Quiz par matière et par chapitre</h1><p class="lead">Filtre par spécialité puis choisis le chapitre à réviser.</p></div>
+  <div class="filters" id="quizFilters"></div>
+  <div class="grid g3" id="quizCards" style="margin-top:15px"></div>
+</section>
+
+<section class="page" id="progress">
+  <div class="hero"><span class="pill">Suivi local</span><h1>Ta progression</h1><p class="lead">Les données sont enregistrées uniquement dans le navigateur de cet appareil.</p></div>
+  <div class="grid g4" id="progressStats"></div>
+  <div class="card" style="margin-top:16px"><h2>Détail par spécialité</h2><div id="progressDetail"></div></div>
+</section>
+
+<section class="page" id="sources">
+  <div class="hero"><span class="pill">Références institutionnelles</span><h1>Sources officielles</h1><p class="lead">Le site est un outil de révision synthétique. Pour le texte réglementaire complet, consulte les programmes officiels lorsque tu es connecté.</p></div>
+  <div class="source-list" id="sourceList"></div>
+</section>
+</main>
+</div>
+
+
+<button class="ai-fab" id="aiFab">✨ Aide IA</button>
+<aside class="ai-panel hidden" id="aiPanel">
+  <div class="quiz-head">
+    <div><span class="pill">Aide sans quitter la page</span><h2 style="margin-top:9px">Assistant IA du cours</h2></div>
+    <button class="close-btn" id="aiClose">×</button>
+  </div>
+
+  <div class="ai-context" id="aiContext">Contexte : aucun chapitre ouvert.</div>
+  <div class="ai-status" id="aiStatus">IA locale non chargée. Clique sur « Activer l’IA » lors de la première utilisation.</div>
+  <div class="ai-progress"><div class="ai-progress-bar" id="aiProgressBar"></div></div>
+
+  <div class="ai-chat" id="aiChat" aria-live="polite">
+    <div class="ai-msg assistant">Bonjour ! Ouvre un chapitre puis dis-moi précisément ce que tu ne comprends pas. Je répondrai directement dans ce panneau.</div>
+  </div>
+
+  <label for="aiMode"><b>Type d’aide</b></label>
+  <select id="aiMode">
+    <option value="simple">Explique-moi plus simplement</option>
+    <option value="example">Donne-moi un nouvel exemple guidé</option>
+    <option value="exercise">Crée un exercice progressif sans donner la réponse immédiatement</option>
+    <option value="correct">Aide-moi à corriger mon raisonnement</option>
+  </select>
+
+  <div class="ai-send-row">
+    <textarea id="aiQuestion" rows="3" placeholder="Exemple : je ne comprends pas la différence entre incertitude de type A et de type B."></textarea>
+    <button class="btn" id="aiAsk">Envoyer</button>
+  </div>
+
+  <div class="ai-actions" style="margin-top:8px">
+    <button class="btn secondary" id="aiLoad">Activer l’IA</button>
+    <button class="btn secondary" id="aiClear">Effacer</button>
+  </div>
+  <div class="ai-model-note">L’IA s’exécute dans le navigateur avec WebGPU. Le premier chargement télécharge un petit modèle et peut prendre plusieurs minutes selon la connexion et l’appareil.</div>
+</aside>
+
+<div class="quiz-panel hidden" id="quizModal">
+  <div class="quiz-box">
+    <div class="quiz-head"><div><span class="pill" id="quizSubjectLabel">Quiz</span><h2 id="quizTitle">Quiz</h2></div><button class="close-btn" id="quizClose">Fermer</button></div>
+    <div class="quiz-meta"><span id="quizPosition"></span><span id="quizScore"></span></div>
+    <div class="question" id="quizQuestion"></div>
+    <div class="options" id="quizOptions"></div>
+    <div class="notice hidden" id="quizExplain"></div>
+    <button class="btn hidden" id="quizNext" style="margin-top:13px">Question suivante</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+const SUBJECTS=[{"id":"arts","name":"Arts","short":"Arts","icon":"🎨","color":"#7b4cc9","note":"7 disciplines possibles","description":"Pratique, création, culture et analyse dans l’une des sept disciplines artistiques.","chapters":[{"title":"Arts plastiques","intro":"La pratique plastique interroge la représentation, la matière, la fabrication, l’espace, la présentation et la réception de l’œuvre.","points":["Représenter ne signifie pas seulement imiter : cadrage, déformation et écart produisent du sens.","Les matériaux, les gestes, la couleur et le support déterminent la matérialité de l’œuvre.","Le dispositif d’exposition modifie la relation au lieu, au corps et au spectateur.","Le carnet de pratique conserve recherches, essais, références, erreurs et décisions."],"method":"Pour analyser une production : identifier l’intention, décrire les choix visibles, expliquer leurs effets, puis les relier à des références.","example":"Une projection monumentale et une petite image encadrée peuvent montrer le même motif, mais elles n’engagent pas le corps du spectateur de la même manière."},{"title":"Cinéma-audiovisuel","intro":"Le cinéma construit du sens par le plan, le cadre, la lumière, le son, le mouvement et le montage.","points":["Un plan est une prise continue entre deux coupes.","Le montage organise la durée, le rythme et les relations entre les plans.","Le champ, le hors-champ et le point de vue orientent l’attention du spectateur.","L’écriture d’un projet passe par synopsis, scénario, découpage et réalisation."],"method":"Pour analyser une séquence : situer la scène, décrire plans et sons, étudier le montage, puis interpréter l’effet produit.","example":"Un gros plan peut isoler une émotion ; un plan d’ensemble replace le personnage dans son environnement."},{"title":"Danse","intro":"La danse articule corps, espace, temps, énergie, intention et relation aux autres.","points":["Le mouvement peut être décrit par ses appuis, directions, niveaux et qualités.","La composition chorégraphique organise répétitions, contrastes, unissons et décalages.","L’interprétation engage présence, précision et intention.","L’analyse mobilise traces vidéo, contexte, musique, scénographie et réception."],"method":"Observer une phrase dansée : relever trajectoires, rythme, dynamiques, relations entre danseurs et choix scéniques.","example":"Le même geste exécuté lentement, avec tension ou relâchement, change totalement sa signification."},{"title":"Histoire des arts","intro":"L’histoire des arts étudie les œuvres dans leurs contextes, leurs usages, leurs circulations et leurs réceptions.","points":["Une œuvre doit être identifiée, décrite, analysée et contextualisée.","Les arts dialoguent avec les pouvoirs, les croyances, les sciences et les sociétés.","Les techniques et les lieux de présentation influencent les formes artistiques.","La comparaison permet de distinguer continuités, ruptures et réemplois."],"method":"Construire un commentaire : problématique, observations précises, contexte, interprétation et comparaison argumentée.","example":"Comparer deux monuments ne consiste pas à dresser une liste : il faut choisir un axe, par exemple la mise en scène du pouvoir."},{"title":"Musique","intro":"La spécialité associe pratique, écoute, création, interprétation et culture musicale.","points":["Le langage musical organise hauteur, durée, timbre, intensité et espace.","Une œuvre peut être comprise par sa forme, ses motifs, son instrumentation et son contexte.","L’interprétation propose des choix de tempo, phrasé, articulation et équilibre.","Les technologies permettent enregistrer, transformer, mixer et diffuser le son."],"method":"Pour commenter une écoute : identifier les paramètres saillants, suivre la forme, comparer les sections et relier les choix au projet expressif.","example":"Une même mélodie change de caractère selon le tempo, l’instrumentation et les nuances."},{"title":"Théâtre","intro":"Le théâtre associe texte, jeu, espace, corps, voix, scénographie et relation au public.","points":["Le texte théâtral contient paroles et indications scéniques, mais la représentation constitue une nouvelle interprétation.","Le jeu travaille présence, écoute, adresse, rythme et intention.","La mise en scène organise espace, lumière, costumes, objets et sons.","Le spectateur produit du sens à partir du dispositif et des choix de représentation."],"method":"Analyser une scène : situation dramatique, enjeux, jeu, espace, rythme, objets, lumière et rapport au public.","example":"Une réplique dite face au partenaire ou directement au public ne produit pas la même relation."},{"title":"Arts du cirque","intro":"Les arts du cirque combinent prouesse, composition, risque maîtrisé, présence, agrès et dramaturgie.","points":["La technique corporelle est mise au service d’une intention artistique.","Le risque réel ou suggéré crée une tension avec le public.","L’espace, la musique, les objets et les partenaires structurent le numéro.","La sécurité repose sur préparation, répétition, parade et connaissance du matériel."],"method":"Analyser un numéro : identifier l’agrès, les contraintes, les figures, le rythme, le risque, la dramaturgie et le rapport au public.","example":"La répétition volontaire d’une chute simulée peut transformer une difficulté technique en motif comique."}]},{"id":"bioeco","name":"Biologie-écologie","short":"Bio-écologie","icon":"🌿","color":"#3c8b57","note":"Lycées agricoles uniquement","description":"Fonctionnement du vivant, biodiversité, écosystèmes, santé et démarche de terrain.","chapters":[{"title":"Organisation du vivant","intro":"Les systèmes vivants sont organisés de la molécule à l’écosystème et échangent matière, énergie et information.","points":["La cellule est l’unité structurale et fonctionnelle du vivant.","Les tissus et organes assurent des fonctions coordonnées.","Le métabolisme regroupe les transformations chimiques de l’organisme.","Les régulations maintiennent des conditions internes compatibles avec la vie."],"method":"Relier chaque niveau d’organisation à la fonction étudiée et utiliser des observations microscopiques ou expérimentales.","example":"Une feuille associe cellules chlorophylliennes, tissus conducteurs et stomates pour produire et échanger de la matière."},{"title":"Génétique, reproduction et évolution","intro":"L’information génétique se transmet, varie et contribue à la diversité des individus et des populations.","points":["L’ADN porte l’information génétique.","La reproduction sexuée crée de nouvelles combinaisons d’allèles.","Les mutations introduisent de nouvelles variations.","Sélection, dérive et migrations modifient les fréquences au cours du temps."],"method":"Distinguer variation individuelle, transmission héréditaire et évolution d’une population.","example":"Un caractère avantageux dans un milieu peut devenir plus fréquent si les individus qui le portent se reproduisent davantage."},{"title":"Écosystèmes et biodiversité","intro":"Un écosystème associe une communauté d’êtres vivants à son milieu physique et aux interactions qui les relient.","points":["Réseaux trophiques et cycles de matière structurent les écosystèmes.","La biodiversité s’étudie aux niveaux génétique, spécifique et écosystémique.","Les perturbations peuvent modifier la résilience d’un milieu.","Les activités humaines transforment habitats, ressources et équilibres."],"method":"Décrire le système, identifier flux et interactions, puis discuter pressions, indicateurs et capacité de restauration.","example":"La disparition d’un prédateur peut entraîner une augmentation de ses proies puis une forte pression sur la végétation."},{"title":"Santé et environnement","intro":"La santé dépend de facteurs biologiques, environnementaux, sociaux et comportementaux.","points":["Agents infectieux, immunité et prévention sont liés.","Alimentation, activité et environnement influencent le fonctionnement de l’organisme.","Les contaminants peuvent circuler et s’accumuler dans les chaînes alimentaires.","L’évaluation d’un risque distingue danger, exposition et vulnérabilité."],"method":"Analyser une question de santé avec des données, comparer les risques et justifier des mesures de prévention.","example":"Une substance toxique peut être peu risquée en l’absence d’exposition, mais devenir préoccupante si elle s’accumule dans l’organisme."},{"title":"Démarche scientifique de terrain","intro":"La biologie-écologie mobilise observations, échantillonnages, mesures, expérimentations et traitements de données.","points":["Un protocole doit préciser variables, témoins et répétitions.","L’échantillonnage doit être adapté à la question et au milieu.","Les résultats doivent être représentés avec unités et incertitudes.","Une conclusion répond à la question sans dépasser les données disponibles."],"method":"Question → hypothèse → protocole → collecte → traitement → interprétation → limites.","example":"Comparer deux prairies nécessite des surfaces d’échantillonnage similaires et plusieurs relevés, pas un seul point choisi au hasard."}]},{"id":"eppcs","name":"Éducation physique, pratiques et culture sportives","short":"EPPCS","icon":"🏅","color":"#e05c3c","note":"Pratique et théorie","description":"Performance, santé, technologie des activités physiques, culture et métiers du sport.","chapters":[{"title":"Pratique et performance","intro":"La performance résulte de ressources physiques, techniques, tactiques, mentales et collectives.","points":["L’entraînement repose sur régularité, progressivité et spécificité.","La technique rend l’action plus efficace et économique.","La tactique adapte les choix à l’environnement et aux adversaires.","L’analyse vidéo et les indicateurs permettent de réguler la pratique."],"method":"Fixer un objectif mesurable, diagnostiquer, planifier, pratiquer, recueillir des données et ajuster.","example":"Améliorer un temps de course ne dépend pas uniquement de courir plus vite : départ, allure et récupération comptent aussi."},{"title":"Pratique physique et santé","intro":"L’activité physique agit sur les systèmes cardiovasculaire, respiratoire, musculaire et psychologique.","points":["L’échauffement prépare progressivement l’organisme.","La récupération dépend du sommeil, de l’hydratation, de la nutrition et de la charge.","La prévention des blessures repose sur technique, progressivité et écoute des signaux.","La sédentarité constitue un facteur de risque distinct du manque de sport."],"method":"Évaluer une séance par intensité, durée, récupération, sensations et évolution des indicateurs.","example":"Une charge très élevée sans récupération suffisante peut diminuer la performance et augmenter le risque de blessure."},{"title":"Technologie des activités physiques","intro":"Chaque activité possède des contraintes, des règles, des principes d’efficacité et des moyens de mesure.","points":["Les forces, trajectoires et équilibres expliquent de nombreux gestes.","Le matériel modifie les possibilités et les performances.","Les règles structurent l’incertitude et l’équité de l’affrontement.","Les données doivent être interprétées dans le contexte de l’activité."],"method":"Décomposer le geste en phases, repérer les paramètres déterminants et tester une modification à la fois.","example":"En saut, la vitesse d’élan, l’angle d’impulsion et la coordination influencent la trajectoire."},{"title":"Culture et métiers du sport","intro":"Le sport est un fait social, économique, médiatique et politique, ainsi qu’un secteur professionnel diversifié.","points":["Les pratiques évoluent avec les sociétés et les technologies.","Le spectacle sportif mobilise médias, sponsors et organisations.","Les métiers concernent entraînement, santé, gestion, événementiel, recherche et équipement.","Éthique, inclusion, dopage et environnement sont des enjeux majeurs."],"method":"Pour étudier un enjeu : définir les acteurs, intérêts, règles, effets et controverses à partir de sources fiables.","example":"L’organisation d’un événement doit concilier sécurité, accès du public, impact environnemental et modèle économique."}]},{"id":"hggsp","name":"Histoire-géographie, géopolitique et sciences politiques","short":"HGGSP","icon":"🌍","color":"#315f9f","note":"5 thèmes officiels","description":"Comprendre les pouvoirs, territoires, frontières, informations et faits religieux.","chapters":[{"title":"Comprendre un régime politique : la démocratie","intro":"Le thème étudie les principes démocratiques, leurs formes, leurs avancées, leurs reculs et leurs transformations.","points":["Démocratie directe et représentative proposent des formes différentes de participation.","La séparation des pouvoirs limite leur concentration.","Les transitions démocratiques ne sont ni automatiques ni irréversibles.","L’Union européenne combine plusieurs niveaux de légitimité et de décision."],"method":"Comparer les institutions, les pratiques réelles, la participation et les libertés plutôt que se limiter au mot « démocratie ».","example":"Deux États peuvent organiser des élections mais différer fortement par la liberté de la presse ou l’indépendance de la justice."},{"title":"Analyser les dynamiques des puissances internationales","intro":"Une puissance est la capacité d’un acteur à agir sur les autres et sur l’organisation du monde.","points":["La puissance repose sur des ressources militaires, économiques, diplomatiques, culturelles et technologiques.","Hard power, soft power et smart power sont complémentaires.","Les puissances connaissent ascensions, transformations et déclins.","Le numérique, les langues et les réseaux renouvellent l’influence."],"method":"Identifier les attributs, les instruments, les échelles, les limites et les réactions des autres acteurs.","example":"Une plateforme numérique peut diffuser des normes culturelles tout en créant une dépendance technologique."},{"title":"Étudier les divisions politiques du monde : les frontières","intro":"Les frontières séparent, filtrent, protègent, organisent et peuvent aussi devenir des interfaces.","points":["Le tracé d’une frontière résulte d’un rapport de force et d’une histoire.","Certaines frontières sont ouvertes, contrôlées, militarisées ou contestées.","Les espaces maritimes étendent la question des limites et des ressources.","Les organisations régionales peuvent atténuer certaines frontières sans les supprimer."],"method":"Étudier le tracé, les acteurs, les usages, les flux, les conflits et les effets sur les populations.","example":"Une frontière peut être très ouverte aux marchandises mais difficile à franchir pour certaines personnes."},{"title":"S’informer : un regard critique sur les sources et modes de communication","intro":"L’information dépend de producteurs, de techniques, de modèles économiques et de rapports de pouvoir.","points":["La presse, la radio, la télévision et le numérique ont transformé la circulation de l’information.","Une source doit être identifiée, datée, contextualisée et confrontée.","Les algorithmes et les réseaux sociaux modifient la visibilité des contenus.","Propagande, désinformation et liberté de la presse sont des enjeux politiques."],"method":"Questionner auteur, date, support, objectif, preuves, public et sources concurrentes.","example":"Une image authentique peut désinformer si elle est sortie de son contexte ou associée à une fausse légende."},{"title":"Analyser les relations entre États et religions","intro":"Les rapports entre pouvoir politique et religions varient selon les périodes, les États et les sociétés.","points":["La sécularisation désigne une diminution de l’emprise religieuse sur certains domaines.","La laïcité organise la relation entre l’État, les cultes et les libertés.","Les religions peuvent être des ressources d’identité, de mobilisation ou de diplomatie.","Les conflits présentés comme religieux ont souvent plusieurs dimensions."],"method":"Distinguer institutions, croyances, pratiques, acteurs politiques et contextes historiques.","example":"Un conflit peut mobiliser des symboles religieux tout en portant sur le territoire, les ressources et le pouvoir."}]},{"id":"hlp","name":"Humanités, littérature et philosophie","short":"HLP","icon":"🗣️","color":"#8a4b65","note":"Littérature + philosophie","description":"Étudier les pouvoirs de la parole et les représentations du monde.","chapters":[{"title":"Les pouvoirs de la parole","intro":"Ce premier ensemble étudie l’art de parler, l’autorité de la parole et les séductions du langage de l’Antiquité à l’époque classique.","points":["La rhétorique organise invention, disposition, style, mémoire et action.","Une parole peut convaincre par les raisons, persuader par les émotions ou construire la confiance.","L’autorité dépend de la position du locuteur, du contexte et de la reconnaissance du public.","La séduction du langage peut éclairer, émouvoir ou manipuler."],"method":"Dans un texte ou un discours : identifier situation, thèse, destinataire, arguments, procédés et effets.","example":"Une même affirmation n’a pas la même force si elle est prononcée par un témoin, un expert ou une institution."},{"title":"Les représentations du monde","intro":"Ce second ensemble étudie les découvertes, la pluralité des cultures et la relation de l’être humain à l’animal.","points":["Les grandes découvertes modifient cartes, savoirs et visions de l’humanité.","Décrire une autre culture révèle aussi les catégories de l’observateur.","L’altérité peut produire curiosité, comparaison, domination ou remise en question.","La frontière entre humanité et animalité est philosophique, scientifique et littéraire."],"method":"Comparer les représentations, repérer le point de vue et discuter les présupposés du texte.","example":"Un récit de voyage renseigne sur le lieu décrit, mais aussi sur les normes et les attentes du voyageur."}]},{"id":"llcer","name":"Langues, littératures et cultures étrangères et régionales","short":"LLCER","icon":"🗺️","color":"#3a7f9b","note":"Langues et parcours variés","description":"Approfondir une langue par les œuvres, les sociétés, les médias, la traduction et l’oral.","chapters":[{"title":"Compréhension et expression approfondies","intro":"La spécialité vise une maîtrise plus précise de la langue à l’écrit et à l’oral.","points":["Comprendre l’explicite, l’implicite, le ton et le point de vue.","Construire une argumentation structurée et nuancée.","Mobiliser vocabulaire, grammaire et connecteurs avec précision.","Adapter le registre à la situation et au destinataire."],"method":"Repérer la consigne, sélectionner les informations, organiser une réponse, justifier par le document et relire la langue.","example":"Résumer un article ne consiste pas à traduire chaque phrase : il faut hiérarchiser les idées."},{"title":"Littérature et arts","intro":"Les œuvres littéraires et artistiques permettent d’étudier imaginaires, identités, relations et sociétés.","points":["Le narrateur, le point de vue et la structure influencent la lecture.","Les genres et les formes répondent à des conventions historiques.","Une adaptation transforme l’œuvre source par un nouveau médium.","Les figures de style produisent des effets qu’il faut interpréter."],"method":"Présenter l’extrait, analyser forme et sens, puis le relier à l’œuvre, au thème et au contexte culturel.","example":"Une adaptation cinématographique peut supprimer le narrateur mais utiliser cadrage et musique pour produire un effet équivalent."},{"title":"Civilisation, sociétés et médias","intro":"Les documents éclairent l’histoire, les institutions, les identités et les débats des espaces linguistiques étudiés.","points":["Un document culturel est situé dans un espace et une époque.","Les concepts ne se traduisent pas toujours exactement d’une société à l’autre.","Les médias sélectionnent et mettent en scène l’actualité.","Il faut confronter plusieurs points de vue et types de sources."],"method":"Identifier contexte, acteurs, enjeux, vocabulaire culturel et limites du document.","example":"Deux journaux peuvent rapporter le même événement avec des titres et des images qui orientent différemment la lecture."},{"title":"Traduction et médiation","intro":"Traduire consiste à reconstruire du sens dans une autre langue, pas à remplacer mécaniquement chaque mot.","points":["Le contexte détermine le sens d’un mot polysémique.","Les expressions idiomatiques demandent une équivalence.","La syntaxe et le registre doivent rester naturels dans la langue d’arrivée.","La médiation explique un contenu à un public qui ne dispose pas des mêmes repères."],"method":"Comprendre le passage entier, repérer les difficultés, proposer plusieurs solutions, choisir et relire l’effet global.","example":"Une traduction littérale d’une expression peut être correcte mot à mot mais incompréhensible culturellement."},{"title":"Dossier, synthèse et oral","intro":"Le dossier met en relation plusieurs documents autour d’une question.","points":["Une problématique organise la sélection des idées.","La synthèse compare les documents au lieu de les résumer séparément.","Les exemples servent une démonstration.","À l’oral, voix, rythme, regard et gestion du temps soutiennent le contenu."],"method":"Problématique → plan comparatif → références précises → transitions → conclusion répondant à la question.","example":"Un bon axe peut opposer deux visions d’un même mythe dans un roman, une affiche et un discours."},{"title":"Parcours proposés selon la langue","intro":"Les thèmes exacts varient selon la langue ou le parcours choisi : anglais, anglais monde contemporain, allemand, espagnol, italien, portugais et langues régionales.","points":["Chaque programme articule deux grands thèmes de première et des axes d’étude.","Les œuvres intégrales et documents sont étudiés dans la langue cible.","Les contextes historiques et culturels sont propres aux espaces concernés.","Le professeur choisit des objets d’étude conformes au programme de la langue."],"method":"Dans le site, utiliser les quatre chapitres de méthode pour toutes les langues, puis compléter avec les thèmes indiqués par le professeur et le Bulletin officiel.","example":"En anglais littérature, l’étude peut privilégier imaginaires et rencontres ; en anglais monde contemporain, les dossiers sont davantage ancrés dans l’actualité et les sociétés."}]},{"id":"llca","name":"Littérature et langues et cultures de l’Antiquité","short":"LLCA","icon":"🏛️","color":"#9a7134","note":"Latin ou grec","description":"Langue, littérature, histoire et réception des cultures grecque et romaine.","chapters":[{"title":"Langue et traduction","intro":"L’étude du latin ou du grec associe morphologie, syntaxe, lexique, traduction et commentaire.","points":["Les formes indiquent fonctions et relations dans la phrase.","La traduction exige de repérer verbes, propositions et groupes.","L’étymologie éclaire le vocabulaire français et scientifique.","Une traduction est un choix interprétatif argumenté."],"method":"Repérer les verbes, identifier les propositions, analyser les cas, construire le sens puis rédiger un français naturel.","example":"Deux traductions peuvent être différentes tout en respectant le texte si elles justifient les nuances."},{"title":"La cité entre réalités et utopies","intro":"La cité antique organise institutions, citoyenneté, espace public et représentations d’un ordre idéal.","points":["La citoyenneté antique est limitée et dépend du statut.","Les institutions répartissent assemblées, magistratures et conseils.","La cité idéale permet de critiquer les sociétés réelles.","Architecture et rituels donnent une forme visible à la communauté."],"method":"Comparer le modèle politique présenté, les citoyens inclus ou exclus et l’écart entre idéal et réalité.","example":"Athènes valorise la participation des citoyens, mais exclut femmes, esclaves et étrangers de la citoyenneté."},{"title":"Justice des dieux, justice des hommes","intro":"Textes et mythes confrontent lois divines, lois humaines, vengeance, procès et responsabilité.","points":["La justice peut être familiale, civique ou divine.","La tragédie met souvent en conflit des obligations légitimes.","Le procès transforme la vengeance privée en jugement public.","La faute, l’intention et le destin interrogent la responsabilité."],"method":"Identifier les normes en conflit, les autorités invoquées et les conséquences du choix du personnage.","example":"Antigone oppose devoir familial et loi de la cité, sans que le conflit se réduise à une opposition simple entre bien et mal."},{"title":"Amour, Amours","intro":"La littérature antique explore désir, mariage, fidélité, passion, amitié et pouvoir d’Éros.","points":["L’amour peut être force créatrice, maladie, domination ou initiation.","Les genres construisent des voix amoureuses différentes.","Les normes sociales encadrent unions et comportements.","Les mythes amoureux sont sans cesse réécrits."],"method":"Étudier qui parle, à qui, dans quel genre et avec quelles images du désir.","example":"Le mythe d’Orphée et Eurydice peut être relu comme histoire de fidélité, de création ou d’impossibilité du retour."},{"title":"Méditerranée : conflits, influences et échanges","intro":"La Méditerranée antique est un espace de guerres, mobilités, commerces, colonisations et transferts culturels.","points":["Les peuples circulent avec techniques, langues, cultes et récits.","Les empires organisent et hiérarchisent les territoires.","Les identités se construisent par contacts et oppositions.","Les textes antiques représentent l’étranger selon des enjeux précis."],"method":"Localiser les routes et acteurs, distinguer conflit et échange, puis analyser les effets culturels.","example":"La conquête romaine impose une domination, mais favorise aussi des circulations et des hybridations religieuses ou artistiques."}]},{"id":"maths","name":"Mathématiques","short":"Maths","icon":"∑","color":"#244db3","note":"Nouveau programme rentrée 2026","description":"Algèbre, analyse, géométrie, probabilités, logique et programmation.","chapters":[{"title":"Logique, ensembles et automatismes","intro":"Les notations et raisonnements logiques traversent tout le programme.","points":["Appartenance, inclusion, intersection, réunion et complémentaire structurent les ensembles.","Implication, réciproque, contraposée et équivalence n’ont pas le même sens.","Un contre-exemple suffit à réfuter une proposition universelle.","Calcul littéral, pourcentages et lectures graphiques doivent devenir automatiques."],"method":"Avant de démontrer, identifier clairement hypothèses, conclusion et type de raisonnement.","example":"La réciproque de « si un entier est multiple de 4, alors il est pair » est fausse : 6 est pair sans être multiple de 4."},{"title":"Algorithmique, Python et listes","intro":"La programmation consolide variables, fonctions, conditions et boucles, avec la notion de liste.","points":["Une fonction transforme des entrées en résultat.","Une liste peut être générée, parcourue et modifiée.","Une boucle bornée répète un traitement sur un ensemble d’indices.","La programmation modulaire décompose un problème complexe."],"method":"Spécifier l’entrée et la sortie, écrire un cas simple, tester, puis généraliser.","example":"Une liste permet de stocker les premiers termes d’une suite et de rechercher le premier qui dépasse un seuil."},{"title":"Suites numériques","intro":"Les suites modélisent des évolutions à temps discret.","points":["Une suite peut être définie explicitement ou par récurrence.","Une suite arithmétique correspond à un accroissement constant.","Une suite géométrique correspond à un coefficient multiplicateur constant.","Le sens de variation et l’idée intuitive de limite décrivent le comportement."],"method":"Identifier le type d’évolution, écrire la relation, calculer les termes puis interpréter dans le contexte.","example":"Un capital augmenté de 3 % par an est modélisé par une suite géométrique de raison 1,03."},{"title":"Second degré","intro":"Les polynômes du second degré modélisent trajectoires, aires, coûts et optimisations.","points":["Les formes développée, factorisée et canonique répondent à des besoins différents.","Les racines permettent la factorisation et la résolution.","Le signe dépend du coefficient directeur dominant et des racines.","Le sommet donne un minimum ou un maximum."],"method":"Choisir la forme adaptée : développer pour comparer, factoriser pour résoudre, canonique pour étudier le sommet.","example":"Pour maximiser une aire modélisée par une parabole tournée vers le bas, on cherche l’abscisse du sommet."},{"title":"Dérivation et variations","intro":"Le nombre dérivé mesure le taux de variation instantané et la pente de la tangente.","points":["La dérivée d’une somme se calcule terme à terme.","Le signe de f′ détermine les variations de f.","Une tangente en a a pour pente f′(a).","Les extremums locaux apparaissent souvent lorsque f′ change de signe."],"method":"Calculer f′, étudier son signe, dresser le tableau de variations et répondre à la question posée.","example":"Si f′ est positive puis négative, la fonction atteint un maximum au changement de signe."},{"title":"Exponentielle et trigonométrie","intro":"L’exponentielle modélise des variations continues proportionnelles, tandis que la trigonométrie étudie les angles et phénomènes périodiques.","points":["La fonction exponentielle est positive et sa dérivée est elle-même.","e^(a+b)=e^a e^b permet les transformations.","Le cercle trigonométrique définit sinus et cosinus.","Les fonctions sinusoïdales modélisent des phénomènes périodiques."],"method":"Relier le contexte au modèle, contrôler les unités et interpréter paramètres, période et croissance.","example":"Un signal périodique peut être décrit par son amplitude, sa période et son décalage."},{"title":"Calcul vectoriel et produit scalaire","intro":"Les vecteurs décrivent directions et déplacements ; le produit scalaire mesure une relation angulaire.","points":["Coordonnées, somme et multiplication par un réel permettent les calculs vectoriels.","Le produit scalaire peut se calculer par coordonnées ou par les normes et l’angle.","Deux vecteurs sont orthogonaux si leur produit scalaire est nul.","Distances et projections se déduisent de ces outils."],"method":"Choisir une formule adaptée aux données : coordonnées disponibles ou longueurs et angle.","example":"Pour vérifier qu’un triangle est rectangle, on peut montrer que deux vecteurs de côtés ont un produit scalaire nul."},{"title":"Géométrie repérée","intro":"La géométrie repérée traduit des propriétés géométriques en équations.","points":["Une droite peut être décrite par un point et un vecteur directeur ou par une équation.","Le parallélisme correspond à des vecteurs colinéaires.","Les coordonnées permettent de calculer milieu et distance.","Les intersections se déterminent par résolution de systèmes."],"method":"Faire un schéma, traduire chaque condition en coordonnées, résoudre et vérifier géométriquement.","example":"L’intersection de deux droites se trouve en résolvant simultanément leurs équations."},{"title":"Probabilités conditionnelles, variables aléatoires et statistiques","intro":"Les probabilités modélisent l’incertitude et les variables aléatoires associent une valeur numérique aux issues.","points":["P(A∩B)=P(A)P_A(B).","L’indépendance signifie P(A∩B)=P(A)P(B).","L’espérance représente une valeur moyenne théorique.","Variance et écart-type décrivent la dispersion."],"method":"Définir événements et univers, utiliser tableau ou arbre, calculer puis interpréter sans confondre condition et intersection.","example":"Une espérance positive ne garantit pas un gain à chaque partie ; elle décrit la moyenne sur un grand nombre de répétitions."}]},{"id":"nsi","name":"Numérique et sciences informatiques","short":"NSI","icon":"{ }","color":"#16805d","note":"Python et informatique","description":"Données, programmation, algorithmique, Web, réseaux, architecture et systèmes.","chapters":[{"title":"Histoire de l’informatique","intro":"L’informatique résulte d’innovations successives : calcul automatique, programme, électronique, réseaux et Web.","points":["Babbage imagine une machine analytique et Ada Lovelace décrit un algorithme.","Turing formalise un modèle général du calcul.","Le programme enregistré place données et instructions en mémoire.","Internet est l’infrastructure ; le Web est un service utilisant cette infrastructure."],"method":"Associer chaque date ou personne à l’idée technique qu’elle introduit.","example":"Le Web utilise Internet, mais le courrier électronique utilise aussi Internet sans être le Web."},{"title":"Types et valeurs de base","intro":"Nombres, booléens et caractères sont représentés par des suites de bits.","points":["Le binaire utilise les puissances de 2 et l’hexadécimal seize symboles.","Le complément à deux code les entiers relatifs.","Les flottants représentent de nombreux réels de façon approchée.","Unicode associe des points de code aux caractères."],"method":"Pour convertir un binaire, additionner les puissances de 2 correspondant aux bits égaux à 1.","example":"1010₂ vaut 8 + 2 = 10."},{"title":"Types construits","intro":"Tuples, listes, tableaux et dictionnaires regroupent des valeurs selon des usages différents.","points":["Un tuple est ordonné et immuable.","Une liste est ordonnée et modifiable.","Un dictionnaire associe des clés uniques à des valeurs.","Deux variables peuvent référencer le même objet mutable."],"method":"Choisir la structure selon l’accès nécessaire : position, ordre, modification ou clé.","example":"Modifier une liste partagée par deux variables produit un effet visible depuis les deux noms."},{"title":"Données en tables","intro":"Les tables organisent des enregistrements en lignes et attributs en colonnes.","points":["CSV stocke des données séparées par un délimiteur.","Les valeurs importées doivent être contrôlées et converties.","Filtrer conserve des lignes ; trier les ordonne selon une clé.","Une jointure fusionne des tables grâce à un champ commun."],"method":"Valider les domaines, nettoyer, transformer, puis seulement analyser.","example":"Une colonne d’âge lue depuis CSV contient des chaînes : il faut les convertir avant une comparaison numérique."},{"title":"Web et interaction humain-machine","intro":"Le navigateur construit un DOM et JavaScript réagit aux événements et modifie la page.","points":["HTML structure et CSS présente.","Les événements déclenchent des fonctions.","Le client envoie une requête HTTP et le serveur répond.","HTTPS chiffre les échanges grâce à TLS."],"method":"Action utilisateur → événement → traitement → requête éventuelle → réponse → mise à jour du DOM.","example":"POST place des données dans le corps de la requête, mais seul HTTPS assure leur chiffrement pendant le transport."},{"title":"Architecture, réseaux et systèmes","intro":"Le processeur exécute des instructions, le système gère les ressources et les protocoles transportent les données.","points":["L’architecture de von Neumann associe processeur, mémoire, bus et entrées-sorties.","Les paquets transportent données et informations de contrôle.","TCP assure un transport fiable ; IP assure l’acheminement.","Le système d’exploitation gère processus, mémoire, fichiers et droits."],"method":"Suivre le chemin d’une donnée de l’application au réseau puis jusqu’au destinataire.","example":"Un paquet perdu peut être retransmis par TCP sans que l’utilisateur reconstruise lui-même le message."},{"title":"Langages et programmation","intro":"Un programme clair est découpé, spécifié, testé et documenté.","points":["Conditions et boucles contrôlent l’exécution.","Une fonction possède paramètres, résultat et variables locales.","Préconditions et postconditions décrivent le contrat.","Assertions et tests détectent les erreurs."],"method":"Écrire une fonction courte, définir les cas de test puis intégrer au programme.","example":"Tester seulement un cas ordinaire ne suffit pas : il faut aussi les listes vides, limites ou valeurs inhabituelles."},{"title":"Algorithmique","intro":"Les algorithmes sont comparés par leur correction, leur terminaison et leur coût.","points":["La recherche séquentielle parcourt les éléments un à un.","La dichotomie exige un tableau trié et élimine la moitié des candidats.","Sélection et insertion sont quadratiques dans le pire cas.","k plus proches voisins et algorithmes gloutons répondent à des problèmes de décision."],"method":"Identifier données, résultat, invariant, variant et ordre de grandeur du nombre d’opérations.","example":"Sur un million d’éléments triés, la dichotomie nécessite environ vingt étapes, pas un million."}]},{"id":"pc","name":"Physique-chimie","short":"Physique-Chimie","icon":"⚗️","color":"#3970c9","note":"Expérience et modélisation","description":"Matière, mouvements, énergie, ondes, signaux, mesures et incertitudes.","chapters":[{"title":"Mesure et incertitudes","intro":"Une mesure varie avec l’instrument, le protocole et les conditions expérimentales.","points":["Une série de mesures permet de calculer moyenne et dispersion.","Le type A utilise les statistiques ; le type B les caractéristiques du dispositif.","Le résultat doit comporter unité et chiffres significatifs cohérents.","La compatibilité avec une référence se discute avec l’incertitude."],"method":"Mesurer plusieurs fois, calculer, estimer l’incertitude, arrondir et comparer.","example":"L = (12,4 ± 0,2) cm indique un intervalle approximatif de 12,2 à 12,6 cm."},{"title":"Constitution et transformations de la matière","intro":"La quantité de matière relie les entités microscopiques aux masses et volumes mesurés.","points":["n=m/M et c=n/V sont des relations centrales.","Beer-Lambert relie absorbance et concentration dans son domaine de validité.","Une oxydo-réduction transfère des électrons.","Le tableau d’avancement identifie état final et réactif limitant."],"method":"Équilibrer l’équation, convertir en moles, organiser les données et vérifier les unités.","example":"Pour 18 g d’eau de masse molaire 18 g·mol⁻¹, n=1 mol."},{"title":"Mouvement et interactions","intro":"Les forces et champs expliquent les variations du vecteur vitesse.","points":["Gravitation et électrostatique décroissent avec le carré de la distance.","La pression est une force répartie sur une surface.","Le vecteur vitesse est tangent à la trajectoire.","La résultante des forces est reliée à la variation de vitesse."],"method":"Définir le système, choisir le référentiel, faire le bilan des forces puis relier au mouvement.","example":"Si les forces se compensent, un objet peut rester au repos ou se déplacer à vitesse constante."},{"title":"Énergie : conversions et transferts","intro":"Les bilans suivent les formes d’énergie, les travaux, les puissances et les pertes.","points":["P=UI et E=PΔt en électricité.","Ec=½mv² dépend du carré de la vitesse.","Le travail d’une force dépend de l’angle avec le déplacement.","Sans dissipation, l’énergie mécanique peut se conserver."],"method":"Choisir le système et les états initial/final, puis inventorier énergie reçue, utile, stockée et dissipée.","example":"Doubler une vitesse multiplie l’énergie cinétique par quatre."},{"title":"Ondes et signaux","intro":"Les ondes transportent de l’énergie et les signaux donnent accès à des informations.","points":["v=d/τ et v=λf décrivent propagation et périodicité.","f=1/T relie fréquence et période.","Une lentille convergente forme des images selon la position de l’objet.","L’énergie d’un photon vaut E=hf."],"method":"Identifier les grandeurs, convertir les unités et représenter la situation avant le calcul.","example":"Une onde de fréquence 500 Hz et de longueur d’onde 0,68 m se propage à 340 m·s⁻¹."}]},{"id":"svt","name":"Sciences de la vie et de la Terre","short":"SVT","icon":"🧬","color":"#3d9348","note":"Biologie et géologie","description":"Génétique, évolution, dynamique terrestre, écosystèmes, santé et immunité.","chapters":[{"title":"Transmission et variation du patrimoine génétique","intro":"La division cellulaire transmet l’information génétique tandis que mutations et reproduction produisent de la diversité.","points":["La mitose conserve le nombre et l’information des chromosomes.","La réplication de l’ADN précède la division.","Les mutations créent de nouveaux allèles.","Les cellules d’un organisme partagent le génome mais n’expriment pas les mêmes gènes."],"method":"Passer des observations cellulaires au modèle chromosomique puis au mécanisme moléculaire.","example":"Une mutation dans une cellule de peau n’est généralement pas transmise à la descendance."},{"title":"Expression du patrimoine génétique et enzymes","intro":"L’information portée par l’ADN est transcrite et traduite pour produire des protéines.","points":["La transcription fabrique un ARN à partir d’un gène.","La traduction associe codons et acides aminés.","Les protéines déterminent structures et fonctions cellulaires.","Les enzymes accélèrent des réactions avec une spécificité liée à leur structure."],"method":"Relier séquence d’ADN, ARN, séquence protéique et conséquence fonctionnelle.","example":"Une mutation peut modifier un acide aminé et altérer le fonctionnement d’une enzyme."},{"title":"Structure et dynamique interne de la Terre","intro":"Les données sismiques et géologiques révèlent la structure du globe et la mobilité des plaques.","points":["Les ondes sismiques changent de vitesse selon les matériaux.","La lithosphère rigide repose sur une asthénosphère plus ductile.","Les dorsales produisent de la lithosphère océanique.","La subduction recycle la lithosphère et provoque séismes et volcanisme."],"method":"Croiser cartes, profils sismiques, âge des roches et données thermiques pour construire un modèle.","example":"L’âge du plancher océanique augmente en s’éloignant d’une dorsale."},{"title":"Écosystèmes et services environnementaux","intro":"Les écosystèmes fonctionnent par interactions, flux de matière et dynamique des populations.","points":["Producteurs, consommateurs et décomposeurs forment des réseaux.","La matière est recyclée tandis que l’énergie se dissipe.","Les perturbations modifient les équilibres et la résilience.","Les écosystèmes fournissent des services d’approvisionnement, régulation et culture."],"method":"Définir le système, repérer interactions et flux, puis analyser l’effet d’une perturbation.","example":"Une haie peut fournir habitat, limiter l’érosion, stocker du carbone et favoriser la pollinisation."},{"title":"Variation génétique et santé","intro":"Des variations génétiques peuvent être neutres, avantageuses ou associées à des maladies.","points":["Une maladie peut être monogénique ou multifactorielle.","Prédisposition ne signifie pas certitude.","Cancer et résistance aux antibiotiques impliquent mutations et sélection.","Dépistage et conseil génétique posent des questions éthiques."],"method":"Distinguer génotype, phénotype, risque et influence de l’environnement.","example":"Porter un allèle de prédisposition augmente parfois un risque sans déterminer à lui seul la maladie."},{"title":"Fonctionnement du système immunitaire","intro":"L’immunité innée agit rapidement ; l’immunité adaptative est spécifique et possède une mémoire.","points":["Inflammation et phagocytose appartiennent à l’immunité innée.","Les lymphocytes reconnaissent des antigènes spécifiques.","Les anticorps sont produits par des cellules issues de lymphocytes B.","La vaccination crée une mémoire sans provoquer la maladie grave."],"method":"Identifier l’agent, la réponse innée, la réponse adaptative et la mémoire.","example":"Après un rappel vaccinal, la réponse est généralement plus rapide et plus intense."}]},{"id":"si","name":"Sciences de l’ingénieur","short":"SI","icon":"⚙️","color":"#5c667a","note":"Conception et systèmes","description":"Analyser, modéliser, simuler, concevoir et valider des produits innovants.","chapters":[{"title":"Analyser le besoin et les exigences","intro":"Un produit répond à un besoin dans un contexte d’usage, avec des contraintes mesurables.","points":["Le besoin se distingue de la solution technique.","Les parties prenantes ont des attentes parfois contradictoires.","Une exigence doit être vérifiable par un critère et un niveau.","Cycle de vie, sécurité, coût et environnement font partie de l’analyse."],"method":"Exprimer le besoin, identifier les acteurs, formaliser les exigences puis définir comment les vérifier.","example":"« Être léger » devient exploitable si l’exigence précise une masse maximale."},{"title":"Chaînes d’information et d’énergie","intro":"Les systèmes acquièrent, traitent et communiquent l’information tout en alimentant, distribuant, convertissant et transmettant l’énergie.","points":["Un capteur transforme une grandeur physique en information.","Le traitement prend une décision selon un programme.","Un actionneur transforme une énergie en action.","Les interfaces relient sous-systèmes et utilisateur."],"method":"Tracer les flux, nommer les fonctions et relier chaque composant à sa fonction.","example":"Un portail automatique détecte un véhicule, traite la commande, alimente le moteur et transmet le mouvement."},{"title":"Modélisation mécanique et énergétique","intro":"Les modèles représentent mouvements, forces, puissances et rendements avec des hypothèses explicites.","points":["Position, vitesse et accélération décrivent le mouvement.","Les actions mécaniques sont représentées par des forces et moments.","Puissance et énergie permettent les bilans.","Un modèle simplifie la réalité et possède un domaine de validité."],"method":"Isoler le système, choisir les hypothèses, écrire les relations, simuler puis comparer aux mesures.","example":"Négliger les frottements peut être acceptable à faible durée, mais fausser une prévision énergétique."},{"title":"Commande, programmation et simulation","intro":"La commande organise le comportement d’un système à partir d’entrées, d’états et de règles.","points":["Un algorithme peut être séquentiel, conditionnel ou événementiel.","Une boucle de retour compare consigne et mesure.","La simulation permet de tester avant le prototype.","Les données expérimentales servent à ajuster les paramètres."],"method":"Définir les états et transitions, programmer un modèle simple, tester les cas normaux et les défauts.","example":"Un thermostat compare la température mesurée à la consigne avant d’activer ou couper le chauffage."},{"title":"Conception, prototypage et validation","intro":"La conception explore plusieurs solutions, réalise un prototype et vérifie les performances.","points":["Les solutions sont comparées selon critères techniques, économiques et environnementaux.","CAO et fabrication numérique accélèrent les itérations.","Un protocole de test doit être reproductible.","L’écart entre simulation et mesure conduit à corriger modèle ou prototype."],"method":"Imaginer → sélectionner → modéliser → prototyper → mesurer → valider → améliorer.","example":"Un prototype imprimé en 3D peut valider l’ergonomie avant de choisir un matériau industriel."}]},{"id":"ses","name":"Sciences économiques et sociales","short":"SES","icon":"📊","color":"#9c563d","note":"Économie, sociologie, science politique","description":"Marchés, financement, monnaie, socialisation, opinion, vote, risques et entreprises.","chapters":[{"title":"Comment un marché concurrentiel fonctionne-t-il ?","intro":"Le marché coordonne offre et demande par les prix lorsque certaines conditions de concurrence sont réunies.","points":["La demande décroît généralement avec le prix, l’offre augmente.","L’équilibre détermine prix et quantité échangée.","Le surplus mesure les gains à l’échange.","Une taxe ou subvention modifie prix, quantité et répartition du surplus."],"method":"Tracer offre et demande, repérer l’équilibre, puis analyser le déplacement d’une courbe.","example":"Une hausse du coût de production déplace l’offre et tend à augmenter le prix d’équilibre."},{"title":"Comment les marchés imparfaitement concurrentiels fonctionnent-ils ?","intro":"Lorsque les entreprises disposent d’un pouvoir de marché, elles peuvent influencer prix et quantité.","points":["Monopole, oligopole et concurrence monopolistique sont des structures différentes.","Les barrières à l’entrée protègent les entreprises installées.","Ententes et abus de position dominante réduisent la concurrence.","La politique de la concurrence cherche à protéger le fonctionnement du marché."],"method":"Identifier nombre d’offreurs, différenciation, barrières et capacité à fixer le prix.","example":"Un brevet stimule l’innovation mais crée temporairement un pouvoir de marché."},{"title":"Quelles sont les principales défaillances du marché ?","intro":"Le marché peut produire une allocation inefficace en présence d’externalités, biens collectifs ou asymétries d’information.","points":["Une externalité affecte un tiers sans compensation.","Un bien collectif est non rival et difficilement excluable.","Les ressources communes sont rivales mais difficiles à exclure.","L’information inégale peut provoquer sélection adverse ou aléa moral."],"method":"Identifier la défaillance, expliquer le mécanisme, puis comparer réglementation, taxe, subvention ou production publique.","example":"La pollution est une externalité négative si son coût n’est pas inclus dans le prix du produit."},{"title":"Comment les agents économiques se financent-ils ?","intro":"Ménages, entreprises et administrations peuvent disposer d’une capacité ou d’un besoin de financement.","points":["L’autofinancement utilise l’épargne propre.","Le financement externe peut être direct sur les marchés ou indirect par les banques.","Le taux d’intérêt rémunère le prêteur et représente un coût pour l’emprunteur.","Le budget public peut connaître déficit et dette."],"method":"Calculer épargne, besoin ou capacité puis identifier instrument, intermédiaire et risque.","example":"Une entreprise peut financer un investissement par bénéfices conservés, emprunt bancaire ou émission d’actions."},{"title":"Qu’est-ce que la monnaie et comment est-elle créée ?","intro":"La monnaie facilite les échanges, mesure les valeurs et permet de transférer du pouvoir d’achat dans le temps.","points":["Ses fonctions sont intermédiaire, unité de compte et réserve de valeur.","La monnaie scripturale circule par écritures sur les comptes.","Les banques créent de la monnaie lorsqu’elles accordent certains crédits.","La banque centrale influence les conditions de financement et fournit la monnaie centrale."],"method":"Distinguer création monétaire, circulation et destruction lors du remboursement du principal.","example":"Un crédit bancaire augmente simultanément le dépôt du client et sa dette."},{"title":"Comment la socialisation contribue-t-elle aux différences de comportement ?","intro":"La socialisation transmet des normes, valeurs et dispositions au cours de la vie.","points":["Famille, école, pairs, médias et travail sont des instances.","Les apprentissages diffèrent selon milieu social et genre.","La socialisation secondaire peut renforcer ou transformer les dispositions.","Les trajectoires individuelles résultent de plusieurs influences."],"method":"Identifier normes, valeurs, pratiques, instances et mécanismes d’apprentissage.","example":"Les goûts culturels ne sont pas innés : ils se construisent par fréquentation, imitation et encouragement."},{"title":"Comment se construisent et évoluent les liens sociaux ?","intro":"Les individus appartiennent à plusieurs groupes et sont reliés par différents types de liens.","points":["Liens de filiation, participation élective, participation organique et citoyenneté.","Individualisation ne signifie pas disparition de tous les liens.","Emploi, famille et associations peuvent intégrer.","Précarité et isolement fragilisent certaines protections et reconnaissances."],"method":"Repérer le type de lien, la protection fournie, la reconnaissance et les facteurs de fragilisation.","example":"La perte d’un emploi peut affecter revenu, relations professionnelles et sentiment d’utilité sociale."},{"title":"Quels processus sociaux contribuent à la déviance ?","intro":"La déviance est la transgression d’une norme sociale et varie selon les groupes, les époques et les situations.","points":["Le contrôle social peut être formel ou informel.","Une norme est sociale et historiquement située.","L’étiquetage peut renforcer une carrière déviante.","La délinquance est une catégorie juridique mesurée imparfaitement."],"method":"Distinguer acte, norme, réaction sociale, sanction et données disponibles.","example":"Une statistique policière dépend des actes commis, des plaintes et de l’activité des services."},{"title":"Comment se forme et s’exprime l’opinion publique ?","intro":"L’opinion publique est construite par débats, médias, groupes et dispositifs de mesure.","points":["Les sondages reposent sur un échantillon et une formulation des questions.","La marge d’erreur limite la précision.","Médias et réseaux sélectionnent les sujets visibles.","Manifestations, pétitions et votes sont des formes d’expression."],"method":"Examiner commanditaire, date, échantillon, question, méthode et incertitude d’un sondage.","example":"Un écart d’un point entre deux candidats peut être inférieur à la marge d’erreur."},{"title":"Voter : une affaire individuelle ou collective ?","intro":"Le vote dépend de caractéristiques sociales, d’offres politiques, de contextes et de décisions individuelles.","points":["Participation et abstention varient selon âge, diplôme, intégration et intérêt politique.","Les préférences ne sont pas entièrement stables.","Campagnes et enjeux peuvent mobiliser ou démobiliser.","Les appartenances sociales influencent sans déterminer mécaniquement."],"method":"Croiser variables sociales et contexte électoral, puis éviter de transformer une corrélation en déterminisme.","example":"Un groupe vote davantage pour un candidat en moyenne, mais ses membres ne votent pas tous de la même façon."},{"title":"Comment l’assurance et la protection sociale gèrent-elles les risques ?","intro":"Les sociétés mutualisent certains risques par assurance privée, solidarité et protection sociale.","points":["Un risque est un événement incertain pouvant entraîner une perte.","La mutualisation répartit le coût entre cotisants.","La protection sociale combine assurance, assistance et prestations universelles.","Sélection adverse et aléa moral compliquent les marchés d’assurance."],"method":"Identifier le risque, le mode de financement, les bénéficiaires et la logique de redistribution.","example":"L’assurance maladie mutualise les dépenses : tous cotisent mais seuls certains utilisent des soins à un moment donné."},{"title":"Comment les entreprises sont-elles organisées et gouvernées ?","intro":"L’entreprise coordonne travail, capital et décisions dans un environnement incertain.","points":["Les frontières de l’entreprise évoluent avec sous-traitance et intégration.","La coordination combine hiérarchie, règles, coopération et incitations.","Dirigeants, salariés, actionnaires et partenaires ont des intérêts distincts.","Les modes de gouvernance répartissent contrôle et pouvoir de décision."],"method":"Identifier parties prenantes, objectifs, conflits, mécanismes de coordination et indicateurs de performance.","example":"Une décision rentable à court terme peut être contestée si elle dégrade les conditions de travail ou l’environnement."}]}];
+const SOURCES=[{"label":"Liste officielle des 13 spécialités de la voie générale","url":"https://www.education.gouv.fr/l-orientation-en-seconde-generale-et-technologique-307392"},{"label":"Choisir ses enseignements de spécialité","url":"https://www.education.gouv.fr/reussir-au-lycee/choisir-ses-enseignements-de-specialite-au-lycee-pour-preparer-ses-etudes-superieures-325475"},{"label":"Nouveau programme de spécialité mathématiques — rentrée 2026","url":"https://www.education.gouv.fr/bo/2026/Hebdo14/MENE2602917A"},{"label":"Programmes HGGSP","url":"https://eduscol.education.gouv.fr/5802/programmes-et-ressources-en-histoire-geographie-geopolitique-et-sciences-politiques-voie-g"},{"label":"Programmes HLP","url":"https://eduscol.education.gouv.fr/5805/programmes-et-ressources-en-humanites-litterature-et-philosophie-voie-g"},{"label":"Programmes LLCER","url":"https://eduscol.education.gouv.fr/5814/programmes-et-ressources-en-langues-litteratures-et-cultures-etrangeres-et-regionales-voie-g"},{"label":"Programmes LLCA","url":"https://eduscol.education.gouv.fr/5808/programmes-et-ressources-en-langues-et-cultures-de-l-antiquite-voie-gt"},{"label":"Programmes NSI","url":"https://eduscol.education.gouv.fr/5823/programmes-et-ressources-en-numerique-et-sciences-informatiques-voie-g"},{"label":"Programmes Sciences de l’ingénieur","url":"https://eduscol.education.gouv.fr/5832/programmes-et-ressources-en-sciences-de-l-ingenieur-voie-gt"},{"label":"Programmes SVT","url":"https://eduscol.education.gouv.fr/5835/programmes-et-ressources-en-sciences-de-la-vie-et-de-la-terre-voie-gt"},{"label":"Programmes SES","url":"https://eduscol.education.gouv.fr/5838/programmes-et-ressources-en-sciences-economiques-et-sociales-voie-gt"},{"label":"Programmes EPPCS","url":"https://eduscol.education.gouv.fr/5784/programmes-et-ressources-en-education-physique-et-sportive-eps-voie-gt"},{"label":"Programme de spécialité Arts","url":"https://www.education.gouv.fr/bo/19/Special1/MENE1901567A.htm"}];
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const storage=window.localStorage;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const subjectById=id=>SUBJECTS.find(s=>s.id===id);
+const chapterKey=(sid,i)=>sid+"-"+i;
+let currentLearningContext={subject:"",chapter:"",intro:"",points:[]};
+
+function showPage(id){
+  $$(".page").forEach(p=>p.classList.toggle("active",p.id===id));
+  $$(".nav").forEach(n=>n.classList.toggle("active",n.dataset.page===id));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$$(".nav").forEach(n=>n.onclick=()=>showPage(n.dataset.page));
+
+const theme=storage.getItem("allsp_theme")||"light";
+document.documentElement.dataset.theme=theme;
+$("#themeBtn").onclick=()=>{
+  const next=document.documentElement.dataset.theme==="dark"?"light":"dark";
+  document.documentElement.dataset.theme=next;storage.setItem("allsp_theme",next);
+};
+
+function selectedIds(){
+  try{return JSON.parse(storage.getItem("allsp_selected")||"[]")}catch{return[]}
+}
+function saveSelected(ids){storage.setItem("allsp_selected",JSON.stringify(ids.slice(0,3)))}
+function toggleSelected(id){
+  let ids=selectedIds();
+  if(ids.includes(id)) ids=ids.filter(x=>x!==id);
+  else{
+    if(ids.length>=3){alert("Tu peux sélectionner au maximum trois spécialités.");return}
+    ids.push(id);
+  }
+  saveSelected(ids);renderAll();
+}
+function isDone(sid,i){return storage.getItem("allsp_done_"+chapterKey(sid,i))==="1"}
+function setDone(sid,i,val){
+  storage.setItem("allsp_done_"+chapterKey(sid,i),val?"1":"0");updateProgress();renderMyPath();
+}
+function totalChapters(){return SUBJECTS.reduce((n,s)=>n+s.chapters.length,0)}
+function completedChapters(){return SUBJECTS.reduce((n,s)=>n+s.chapters.filter((_,i)=>isDone(s.id,i)).length,0)}
+
+function cardHtml(s){
+  const chosen=selectedIds().includes(s.id);
+  return `<article class="card subject-card" style="--subject:${s.color}">
+    <button class="choice-btn ${chosen?"chosen":""}" data-choice="${s.id}" title="Ajouter à mes spécialités">${chosen?"✓":"★"}</button>
+    <div class="subject-icon">${s.icon}</div><div class="subject-note">${esc(s.note)}</div>
+    <h2>${esc(s.name)}</h2><p class="muted">${esc(s.description)}</p>
+    <button class="btn subject open-subject" style="--subject:${s.color}" data-subject="${s.id}">Ouvrir les cours</button>
+  </article>`;
+}
+function bindCards(root=document){
+  $$("[data-choice]",root).forEach(b=>b.onclick=e=>{e.stopPropagation();toggleSelected(b.dataset.choice)});
+  $$(".open-subject",root).forEach(b=>b.onclick=()=>openSubject(b.dataset.subject));
+}
+function renderHome(){
+  $("#homeSubjectsBtn").onclick=()=>showPage("subjects");
+  $("#homeMediaBtn").onclick=()=>showPage("media");
+  $("#homeGamesBtn").onclick=()=>showPage("media");
+  $("#homeAiBtn").onclick=()=>toggleAi(true);
+}
+function renderSubjects(filter=""){
+  const q=filter.trim().toLowerCase();
+  const list=SUBJECTS.filter(s=>{
+    const text=[s.name,s.short,s.description,...s.chapters.flatMap(c=>[c.title,c.intro,...c.points])].join(" ").toLowerCase();
+    return !q||text.includes(q);
+  });
+  $("#subjectCards").innerHTML=list.length?list.map(cardHtml).join(""):`<div class="empty">Aucune spécialité ou notion trouvée.</div>`;
+  bindCards($("#subjectCards"));
+}
+$("#subjectSearch").oninput=e=>renderSubjects(e.target.value);
+$("#clearSearch").onclick=()=>{$("#subjectSearch").value="";renderSubjects()};
+
+function openSubject(id){
+  const s=subjectById(id);if(!s)return;
+  currentLearningContext={subject:s.name,chapter:"Vue générale",intro:s.description,points:[]};
+  updateAiContext();
+  $("#subjectContent").innerHTML=`<div class="hero subject-hero" style="--subject:${s.color}">
+    <span class="pill">${esc(s.note)}</span><h1>${s.icon} ${esc(s.name)}</h1><p class="lead">${esc(s.description)}</p>
+    <div class="pills"><span class="pill">${s.chapters.length} chapitres</span><span class="pill">Quiz pour chaque chapitre</span><span class="pill">Progression sauvegardée</span></div>
+  </div>
+  <div class="notice">${s.id==="llcer"?"Les axes précis diffèrent selon la langue ; utilise les méthodes communes et complète avec les thèmes donnés par ton professeur.":s.id==="bioeco"?"Cette spécialité est proposée uniquement dans les lycées agricoles.":"Ouvre un chapitre pour lire le cours, voir la méthode et lancer le quiz."}</div>
+  <div>${s.chapters.map((c,i)=>chapterHtml(s,c,i)).join("")}</div>`;
+  $$(".done-box",$("#subjectContent")).forEach(b=>b.onchange=()=>setDone(b.dataset.sid,Number(b.dataset.index),b.checked));
+  $$(".chapter-quiz",$("#subjectContent")).forEach(b=>b.onclick=()=>startChapterQuiz(b.dataset.sid,Number(b.dataset.index)));
+  $$(".chapter-ai",$("#subjectContent")).forEach(b=>b.onclick=()=>{
+    const sub=subjectById(b.dataset.sid),c=sub.chapters[Number(b.dataset.index)];
+    currentLearningContext={subject:sub.name,chapter:c.title,intro:c.intro,points:c.points};updateAiContext();toggleAi(true);
+  });
+  $$(".reveal-game",$("#subjectContent")).forEach(b=>b.onclick=()=>{
+    const box=b.parentElement.querySelector(".game-answer");box.textContent=b.dataset.answer;box.classList.remove("hidden");
+  });
+  $$(".load-video",$("#subjectContent")).forEach(b=>b.onclick=()=>loadChapterVideo(b.dataset.videoKey));
+  $$(".chapter",$("#subjectContent")).forEach((d,idx)=>d.addEventListener("toggle",()=>{
+    if(!d.open)return;
+    $$(".chapter",$("#subjectContent")).forEach(other=>{if(other!==d)other.open=false});
+    const c=s.chapters[idx];
+    currentLearningContext={subject:s.name,chapter:c.title,intro:c.intro,points:c.points};
+    updateAiContext();
+  }));
+  restoreChapterVideos();
+  showPage("subjectView");
+}
+function illustrationSvg(s,c,i){
+  const items=c.points.slice(0,3);
+  const labels=[
+    ["1. OBSERVER","Données et notions"],
+    ["2. RAISONNER","Méthode et relations"],
+    ["3. APPLIQUER","Réponse puis vérification"]
+  ];
+  const marker=`reasonArrow-${s.id}-${i}`;
+  return `<svg class="reasoning-svg" viewBox="0 0 900 235" role="img" aria-label="Étapes du raisonnement">
+    <defs>
+      <marker id="${marker}" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto">
+        <path d="M0,0 L0,8 L11,4 z" fill="${s.color}"></path>
+      </marker>
+    </defs>
+    <rect x="28" y="55" width="230" height="120" rx="24" fill="${s.color}" opacity=".14"></rect>
+    <circle cx="67" cy="92" r="23" fill="${s.color}"></circle>
+    <text x="67" y="99" text-anchor="middle" font-size="22" font-weight="900" fill="white">1</text>
+    <text x="143" y="103" text-anchor="middle" font-size="20" font-weight="900" fill="currentColor">${labels[0][0]}</text>
+    <text x="143" y="137" text-anchor="middle" font-size="16" fill="currentColor">${labels[0][1]}</text>
+
+    <line x1="274" y1="115" x2="335" y2="115" stroke="${s.color}" stroke-width="6" marker-end="url(#${marker})"></line>
+
+    <rect x="348" y="55" width="230" height="120" rx="24" fill="${s.color}" opacity=".24"></rect>
+    <circle cx="387" cy="92" r="23" fill="${s.color}"></circle>
+    <text x="387" y="99" text-anchor="middle" font-size="22" font-weight="900" fill="white">2</text>
+    <text x="463" y="103" text-anchor="middle" font-size="20" font-weight="900" fill="currentColor">${labels[1][0]}</text>
+    <text x="463" y="137" text-anchor="middle" font-size="16" fill="currentColor">${labels[1][1]}</text>
+
+    <line x1="594" y1="115" x2="655" y2="115" stroke="${s.color}" stroke-width="6" marker-end="url(#${marker})"></line>
+
+    <rect x="668" y="55" width="204" height="120" rx="24" fill="${s.color}" opacity=".36"></rect>
+    <circle cx="707" cy="92" r="23" fill="${s.color}"></circle>
+    <text x="707" y="99" text-anchor="middle" font-size="22" font-weight="900" fill="white">3</text>
+    <text x="780" y="103" text-anchor="middle" font-size="20" font-weight="900" fill="currentColor">${labels[2][0]}</text>
+    <text x="770" y="137" text-anchor="middle" font-size="16" fill="currentColor">${labels[2][1]}</text>
+  </svg>
+  <div class="reasoning-legend">
+    ${items.map((p,j)=>`<div class="reasoning-item"><b>Étape ${j+1}</b>${esc(p)}</div>`).join("")}
+  </div>`;
+}
+function explainPoint(p,index){
+  const starters=[
+    "Cette idée donne le vocabulaire et le mécanisme de base. Reformule-la avec tes propres mots avant de continuer.",
+    "Ce point sert à relier le cours à une situation concrète. Cherche toujours ce qui change, ce qui reste constant et pourquoi.",
+    "Ici, il faut distinguer description et interprétation : commence par les faits, puis justifie la conclusion.",
+    "Cette notion devient utile dans les exercices. Identifie les données disponibles, la règle mobilisée et le résultat attendu."
+  ];
+  return `${p} ${starters[index%starters.length]}`;
+}
+function detailedHtml(s,c){
+  return `<details class="deep-dive" style="--subject:${s.color}">
+    <summary>📖 Explication plus détaillée</summary>
+    <div class="deep-content">
+      <p><b>Idée générale :</b> ${esc(c.intro)} Le but n’est pas seulement de mémoriser une phrase, mais de comprendre les liens entre les notions et de savoir les réutiliser.</p>
+      ${c.points.map((p,j)=>`<div class="explain-step"><b>Étape ${j+1}</b>${esc(explainPoint(p,j))}</div>`).join("")}
+      <h4>Exemple guidé en trois étapes</h4>
+      <div class="guided-example"><div><b>1. Identifier</b><br>${esc(c.title)} : repère les mots-clés et les données.</div><div><b>2. Appliquer</b><br>${esc(c.method)}</div><div><b>3. Vérifier</b><br>${esc(c.example)}</div></div>
+      <div class="notice"><b>Erreur fréquente :</b> répondre trop vite avec une définition apprise. Une bonne réponse explique le mécanisme et s’appuie sur un exemple ou une preuve.</div>
+    </div>
+  </details>`;
+}
+function chapterHtml(s,c,i){
+  const query=encodeURIComponent(`${s.name} Première ${c.title} cours`);
+  return `<details class="chapter" style="--subject:${s.color}" ${i===0?"open":""} data-chapter-root="${s.id}-${i}">
+    <summary>${i+1}. ${esc(c.title)}</summary><div class="chapter-body">
+    <p class="lesson-intro">${esc(c.intro)}</p>
+    <div class="key-list">${c.points.map(p=>`<div class="key">• ${esc(p)}</div>`).join("")}</div>
+    ${detailedHtml(s,c)}
+    <div class="method"><b>Méthode :</b> ${esc(c.method)}</div>
+    <div class="example"><b>Exemple :</b> ${esc(c.example)}</div>
+    <div class="illustration-box"><h4>Illustration du raisonnement</h4>${illustrationSvg(s,c,i)}</div>
+    <div class="media-row">
+      <div class="video-card">
+        <h4>🎬 Vidéo YouTube du chapitre</h4>
+        <p class="video-note">Colle un lien YouTube pour le regarder directement ici. Le lien est mémorisé sur cet appareil.</p>
+        <div class="video-wrap"><iframe class="chapter-video-frame" data-video-key="${s.id}-${i}" title="Vidéo ${esc(c.title)}" allowfullscreen></iframe></div>
+        <div class="video-tools"><input class="chapter-video-input" data-video-key="${s.id}-${i}" placeholder="https://www.youtube.com/watch?v=..."><button class="btn secondary load-video" data-video-key="${s.id}-${i}">Charger</button></div>
+        <a class="btn secondary" style="display:inline-block;margin-top:8px;text-decoration:none" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${query}">Rechercher sur YouTube</a>
+      </div>
+      <div class="mini-game">
+        <h4>🧩 Mini-défi : retrouve l’idée clé</h4>
+        <p class="muted">Lis la question, choisis mentalement ta réponse puis révèle-la.</p>
+        <p><b>Question :</b> Quelle notion de ce chapitre est indispensable pour appliquer la méthode correctement ?</p>
+        <button class="btn subject reveal-game" style="--subject:${s.color}" data-answer="${esc(c.points[0])}">Révéler la réponse</button>
+        <div class="game-answer hidden"></div>
+      </div>
+    </div>
+    <div class="chapter-actions">
+      <button class="btn subject chapter-quiz" style="--subject:${s.color}" data-sid="${s.id}" data-index="${i}">Quiz du chapitre</button>
+      <button class="btn secondary chapter-ai" data-sid="${s.id}" data-index="${i}">Demander une autre explication</button>
+      <label class="done-label"><input class="done-box" type="checkbox" data-sid="${s.id}" data-index="${i}" ${isDone(s.id,i)?"checked":""}> Chapitre maîtrisé</label>
+    </div></div></details>`;
+}
+
+function renderMyPath(){
+  const ids=selectedIds(),list=ids.map(subjectById).filter(Boolean);
+  $("#selectedChips").innerHTML=list.length?list.map(s=>`<span class="selection-chip">${s.icon} ${esc(s.short)} <button class="close-btn" data-remove="${s.id}">×</button></span>`).join(""):`<span class="muted">Aucune spécialité sélectionnée. Utilise les étoiles dans le catalogue.</span>`;
+  $$("[data-remove]",$("#selectedChips")).forEach(b=>b.onclick=()=>toggleSelected(b.dataset.remove));
+  $("#mySubjectCards").innerHTML=list.length?list.map(cardHtml).join(""):`<div class="empty">Sélectionne tes matières dans « Toutes les spécialités ».</div>`;
+  bindCards($("#mySubjectCards"));
+  $("#pathQuizBtn").disabled=!list.length;
+}
+$("#pathQuizBtn").onclick=()=>startPathQuiz();
+
+function buildQuestion(s,c,index){
+  const others=shuffle(s.chapters.filter((_,i)=>i!==index).flatMap(x=>x.points)).slice(0,3);
+  const correct=c.points[0];
+  const opts=shuffle([correct,...others]);
+  return {
+    q:`Quelle affirmation correspond au chapitre « ${c.title} » ?`,
+    options:opts,answer:opts.indexOf(correct),
+    explain:correct
+  };
+}
+function buildMethodQuestion(s,c,index){
+  const otherMethods=shuffle(s.chapters.filter((_,i)=>i!==index).map(x=>x.method)).slice(0,3);
+  const opts=shuffle([c.method,...otherMethods]);
+  return {
+    q:`Quelle méthode est la plus adaptée à « ${c.title} » ?`,
+    options:opts,answer:opts.indexOf(c.method),
+    explain:c.method
+  };
+}
+function buildExampleQuestion(s,c,index){
+  const others=shuffle(s.chapters.filter((_,i)=>i!==index).map(x=>x.example)).slice(0,3);
+  const opts=shuffle([c.example,...others]);
+  return {
+    q:`Quel exemple illustre le mieux « ${c.title} » ?`,
+    options:opts,answer:opts.indexOf(c.example),
+    explain:c.example
+  };
+}
+function questionsForChapter(s,i){
+  const c=s.chapters[i];
+  return [buildQuestion(s,c,i),buildMethodQuestion(s,c,i),buildExampleQuestion(s,c,i)];
+}
+
+function renderQuizHub(filter="all"){
+  $("#quizFilters").innerHTML=`<button class="filter-btn ${filter==="all"?"active":""}" data-filter="all">Toutes</button>`+
+    SUBJECTS.map(s=>`<button class="filter-btn ${filter===s.id?"active":""}" data-filter="${s.id}">${esc(s.short)}</button>`).join("");
+  $$(".filter-btn",$("#quizFilters")).forEach(b=>b.onclick=()=>renderQuizHub(b.dataset.filter));
+  const list=SUBJECTS.filter(s=>filter==="all"||s.id===filter).flatMap(s=>s.chapters.map((c,i)=>({s,c,i})));
+  $("#quizCards").innerHTML=list.map(({s,c,i})=>`<article class="card subject-card" style="--subject:${s.color};min-height:205px">
+    <div class="subject-note">${s.icon} ${esc(s.short)}</div><h3>${esc(c.title)}</h3>
+    <p class="muted">3 questions avec correction immédiate.</p>
+    <button class="btn subject launch-hub-quiz" style="--subject:${s.color}" data-sid="${s.id}" data-index="${i}">Lancer</button>
+  </article>`).join("");
+  $$(".launch-hub-quiz",$("#quizCards")).forEach(b=>b.onclick=()=>startChapterQuiz(b.dataset.sid,Number(b.dataset.index)));
+}
+
+let quizQuestions=[],quizIndex=0,quizScore=0,quizAnswered=false,quizContext="";
+function startChapterQuiz(sid,i){
+  const s=subjectById(sid),c=s.chapters[i];
+  quizQuestions=shuffle(questionsForChapter(s,i));quizIndex=0;quizScore=0;quizContext=chapterKey(sid,i);
+  openQuiz(`${s.icon} ${s.short}`,c.title);
+}
+function startPathQuiz(){
+  const ids=selectedIds();if(!ids.length)return;
+  const pool=ids.flatMap(id=>{
+    const s=subjectById(id);
+    return s.chapters.flatMap((c,i)=>questionsForChapter(s,i).map(q=>({...q,label:s.short})));
+  });
+  quizQuestions=shuffle(pool).slice(0,10);quizIndex=0;quizScore=0;quizContext="path";
+  openQuiz("Mes spécialités","Quiz global du parcours");
+}
+function openQuiz(label,title){
+  $("#quizSubjectLabel").textContent=label;$("#quizTitle").textContent=title;
+  $("#quizModal").classList.remove("hidden");renderQuizQuestion();
+}
+function renderQuizQuestion(){
+  const q=quizQuestions[quizIndex];quizAnswered=false;
+  $("#quizPosition").textContent=`Question ${quizIndex+1} / ${quizQuestions.length}`;
+  $("#quizScore").textContent=`Score : ${quizScore}`;
+  $("#quizQuestion").textContent=q.q;
+  $("#quizExplain").classList.add("hidden");
+  $("#quizNext").classList.add("hidden");$("#quizNext").dataset.action="next";
+  $("#quizOptions").innerHTML=q.options.map((o,i)=>`<button class="option" data-answer="${i}">${esc(o)}</button>`).join("");
+  $$(".option",$("#quizOptions")).forEach(b=>b.onclick=()=>answerQuiz(Number(b.dataset.answer),b));
+}
+function answerQuiz(i,button){
+  if(quizAnswered)return;quizAnswered=true;
+  const q=quizQuestions[quizIndex],buttons=$$(".option",$("#quizOptions"));
+  buttons[q.answer].classList.add("correct");
+  if(i===q.answer)quizScore++;else button.classList.add("wrong");
+  $("#quizScore").textContent=`Score : ${quizScore}`;
+  $("#quizExplain").innerHTML=`<b>Correction :</b> ${esc(q.explain)}`;
+  $("#quizExplain").classList.remove("hidden");
+  $("#quizNext").textContent=quizIndex===quizQuestions.length-1?"Voir le résultat":"Question suivante";
+  $("#quizNext").classList.remove("hidden");
+}
+$("#quizNext").onclick=()=>{
+  if($("#quizNext").dataset.action==="restart"){
+    if(quizContext==="path")startPathQuiz();
+    else{const [sid,...rest]=quizContext.split("-");startChapterQuiz(sid,Number(rest.join("-")))}
+    return;
+  }
+  if(quizIndex<quizQuestions.length-1){quizIndex++;renderQuizQuestion();return}
+  const pct=Math.round(quizScore/quizQuestions.length*100);
+  $("#quizPosition").textContent="Terminé";$("#quizQuestion").textContent=`Résultat : ${quizScore} / ${quizQuestions.length}`;
+  $("#quizOptions").innerHTML="";
+  $("#quizExplain").innerHTML=`<div class="score-card">${pct} % — ${pct>=80?"Très bonne maîtrise.":pct>=60?"Bon début : relis les corrections.":"Reprends le cours puis recommence."}</div>`;
+  $("#quizExplain").classList.remove("hidden");
+  $("#quizNext").textContent="Recommencer";$("#quizNext").dataset.action="restart";
+  if(quizContext!=="path"){
+    const best=Math.max(quizScore,Number(storage.getItem("allsp_score_"+quizContext)||0));
+    storage.setItem("allsp_score_"+quizContext,String(best));
+  }
+};
+$("#quizClose").onclick=()=>$("#quizModal").classList.add("hidden");
+$("#quizModal").onclick=e=>{if(e.target===$("#quizModal"))$("#quizModal").classList.add("hidden")};
+
+
+function youtubeId(url){
+  const raw=(url||"").trim();
+  if(/^[A-Za-z0-9_-]{11}$/.test(raw))return raw;
+  try{
+    const u=new URL(raw);
+    if(u.hostname.includes("youtu.be"))return u.pathname.split("/").filter(Boolean)[0]||"";
+    if(u.pathname.startsWith("/shorts/"))return u.pathname.split("/")[2]||"";
+    if(u.pathname.startsWith("/embed/"))return u.pathname.split("/")[2]||"";
+    return u.searchParams.get("v")||"";
+  }catch{return ""}
+}
+function loadChapterVideo(key){
+  const input=$(`.chapter-video-input[data-video-key="${key}"]`);
+  const frame=$(`.chapter-video-frame[data-video-key="${key}"]`);
+  if(!input||!frame)return;
+  const id=youtubeId(input.value);
+  if(!id){alert("Lien YouTube non reconnu.");return}
+  frame.src=`https://www.youtube-nocookie.com/embed/${id}?rel=0&hl=fr`;
+  storage.setItem("allsp_video_"+key,input.value);
+}
+const DEFAULT_CHAPTER_VIDEOS={
+  "pc-0":"https://youtu.be/ERPuOLAWix4?si=T-mEgggavv4IYd3G"
+};
+function restoreChapterVideos(){
+  $$(".chapter-video-frame",$("#subjectContent")).forEach(frame=>{
+    const key=frame.dataset.videoKey;
+    const saved=storage.getItem("allsp_video_"+key)||DEFAULT_CHAPTER_VIDEOS[key]||"";
+    if(!saved)return;
+    const id=youtubeId(saved);if(!id)return;
+    frame.src=`https://www.youtube-nocookie.com/embed/${id}?rel=0&hl=fr`;
+    const input=$(`.chapter-video-input[data-video-key="${key}"]`);
+    if(input)input.value=saved;
+  });
+}
+
+let mysteryNumber=0,mysteryTries=0,mysteryLow=1,mysteryHigh=100;
+function resetMystery(){
+  mysteryNumber=Math.floor(Math.random()*100)+1;mysteryTries=0;mysteryLow=1;mysteryHigh=100;
+  $("#mysteryDisplay").textContent="1 à 100";$("#mysteryLog").textContent="Commence idéalement par 50.";$("#mysteryGuess").value="";
+}
+function tryMystery(){
+  const g=Number($("#mysteryGuess").value);
+  if(!Number.isInteger(g)||g<1||g>100){$("#mysteryLog").textContent="Entre un entier entre 1 et 100.";return}
+  mysteryTries++;
+  if(g===mysteryNumber){$("#mysteryLog").textContent=`Trouvé en ${mysteryTries} essai(s) ! Une stratégie dichotomique demande au maximum 7 essais.`;$("#mysteryDisplay").textContent="🎉 "+g;return}
+  if(g<mysteryNumber){mysteryLow=Math.max(mysteryLow,g+1);$("#mysteryLog").textContent="C’est plus grand."}
+  else{mysteryHigh=Math.min(mysteryHigh,g-1);$("#mysteryLog").textContent="C’est plus petit."}
+  $("#mysteryDisplay").textContent=`${mysteryLow} à ${mysteryHigh}`;
+}
+$("#mysteryTry").onclick=tryMystery;$("#mysteryReset").onclick=resetMystery;
+
+let memoryCurrent=[];
+function allTerms(){
+  return SUBJECTS.flatMap(s=>s.chapters.flatMap(c=>[c.title,...c.points.map(p=>p.split(/[.:;]/)[0])])).filter(x=>x.length<65);
+}
+$("#memoryStart").onclick=()=>{
+  memoryCurrent=shuffle(allTerms()).slice(0,5);
+  $("#memoryWords").innerHTML=memoryCurrent.map(w=>`<span class="memory-word">${esc(w)}</span>`).join("");
+  $("#memoryAnswer").value="";$("#memoryResult").textContent="Mémorise…";
+  setTimeout(()=>{$("#memoryWords").innerHTML='<span class="muted">Les mots sont cachés. Écris-les ci-dessous.</span>';},8000);
+};
+$("#memoryCheck").onclick=()=>{
+  const answer=$("#memoryAnswer").value.toLowerCase();
+  const found=memoryCurrent.filter(w=>answer.includes(w.toLowerCase().split(" ").slice(0,2).join(" ")));
+  $("#memoryResult").textContent=`${found.length} notion(s) retrouvée(s) sur ${memoryCurrent.length}. Réponses : ${memoryCurrent.join(" · ")}`;
+};
+
+let matchScore=0,matchCurrent=null;
+function newMatch(){
+  const s=shuffle(SUBJECTS)[0],c=shuffle(s.chapters)[0],point=shuffle(c.points)[0];
+  const options=shuffle([s,...shuffle(SUBJECTS.filter(x=>x.id!==s.id)).slice(0,3)]);
+  matchCurrent=s.id;$("#matchQuestion").textContent=point;
+  $("#matchOptions").innerHTML=options.map(x=>`<button class="option match-option" data-id="${x.id}">${x.icon} ${esc(x.short)}</button>`).join("");
+  $$(".match-option",$("#matchOptions")).forEach(b=>b.onclick=()=>{
+    const ok=b.dataset.id===matchCurrent;if(ok){matchScore++;b.classList.add("correct")}else b.classList.add("wrong");
+    $("#matchResult").textContent=`${ok?"Correct !":"Non : "+subjectById(matchCurrent).short} Score : ${matchScore}`;
+    $$(".match-option",$("#matchOptions")).forEach(x=>x.disabled=true);
+  });
+}
+$("#matchNew").onclick=newMatch;
+
+let tfScore=0,tfAnswer=true;
+function newTf(){
+  const s=shuffle(SUBJECTS)[0],c=shuffle(s.chapters)[0];
+  tfAnswer=Math.random()>.45;
+  const statement=tfAnswer?shuffle(c.points)[0]:shuffle(SUBJECTS.filter(x=>x.id!==s.id).flatMap(x=>x.chapters.flatMap(y=>y.points)))[0];
+  $("#tfQuestion").textContent=`Dans ${s.short} — ${c.title} : ${statement}`;
+  $("#tfResult").textContent=`Score : ${tfScore}`;
+}
+function answerTf(v){
+  const ok=v===tfAnswer;if(ok)tfScore++;
+  $("#tfResult").textContent=`${ok?"Correct !":"Incorrect."} Score : ${tfScore}`;
+}
+$("#tfTrue").onclick=()=>answerTf(true);$("#tfFalse").onclick=()=>answerTf(false);$("#tfNew").onclick=newTf;
+
+function updateAiContext(){
+  const c=currentLearningContext;
+  $("#aiContext").textContent=c.subject?`Contexte : ${c.subject} — ${c.chapter}`:"Contexte : aucun chapitre ouvert.";
+}
+function toggleAi(force){
+  const panel=$("#aiPanel");
+  const open=force===undefined?panel.classList.contains("hidden"):force;
+  panel.classList.toggle("hidden",!open);
+  if(open)updateAiContext();
+}
+
+const AI_MODEL="Qwen2.5-0.5B-Instruct-q4f16_1-MLC";
+let aiEngine=null;
+let aiLoading=false;
+let aiConversation=[];
+
+function addAiMessage(role,text){
+  const box=document.createElement("div");
+  box.className=`ai-msg ${role}`;
+  box.textContent=text;
+  $("#aiChat").appendChild(box);
+  $("#aiChat").scrollTop=$("#aiChat").scrollHeight;
+  return box;
+}
+function setAiStatus(text,progress=null){
+  $("#aiStatus").textContent=text;
+  if(progress!==null){
+    const value=Math.max(0,Math.min(100,Math.round(progress*100)));
+    $("#aiProgressBar").style.width=value+"%";
+  }
+}
+async function initLocalAi(){
+  if(aiEngine)return true;
+  if(aiLoading)return false;
+  if(!("gpu" in navigator)){
+    setAiStatus("WebGPU n’est pas disponible sur ce navigateur. Essaie une version récente de Chrome ou Edge.");
+    addAiMessage("error","L’IA locale ne peut pas démarrer car WebGPU n’est pas disponible sur cet appareil.");
+    return false;
+  }
+  aiLoading=true;
+  $("#aiLoad").disabled=true;
+  $("#aiAsk").disabled=true;
+  setAiStatus("Chargement du moteur IA…",0.01);
+  try{
+    const webllm=await import("https://esm.run/@mlc-ai/web-llm@0.2.82");
+    aiEngine=await webllm.CreateMLCEngine(AI_MODEL,{
+      initProgressCallback:report=>{
+        setAiStatus(report.text||"Téléchargement et préparation du modèle…",Number(report.progress)||0);
+      }
+    });
+    setAiStatus("IA prête. Tes questions restent traitées dans ce navigateur.",1);
+    addAiMessage("assistant","L’IA est prête. Pose ta question sur le chapitre ouvert.");
+    $("#aiAsk").disabled=false;
+    return true;
+  }catch(err){
+    console.error(err);
+    aiEngine=null;
+    setAiStatus("Impossible de charger l’IA locale sur cet appareil.");
+    addAiMessage("error","Le modèle n’a pas pu être chargé. Vérifie la connexion, l’espace disponible et la compatibilité WebGPU, puis réessaie.");
+    return false;
+  }finally{
+    aiLoading=false;
+    $("#aiLoad").disabled=false;
+  }
+}
+async function askLocalAi(){
+  const question=$("#aiQuestion").value.trim();
+  if(!question){alert("Écris d’abord ta question.");return}
+  if(!aiEngine){
+    const ready=await initLocalAi();
+    if(!ready||!aiEngine)return;
+  }
+
+  const c=currentLearningContext;
+  const modes={
+    simple:"Explique avec des mots simples, une analogie claire et des étapes courtes.",
+    example:"Donne un nouvel exemple guidé, différent de celui du cours, puis une petite question d’entraînement.",
+    exercise:"Crée un exercice progressif. Pose une seule question et attends la réponse de l’élève avant de poursuivre.",
+    correct:"Aide à repérer l’erreur de raisonnement sans donner immédiatement toute la solution."
+  };
+  const context=`Matière : ${c.subject||"non précisée"}
+Chapitre : ${c.chapter||"non précisé"}
+Résumé du cours : ${c.intro||"aucun"}
+Notions clés : ${(c.points||[]).join(" | ")||"aucune"}`;
+
+  addAiMessage("user",question);
+  $("#aiQuestion").value="";
+  $("#aiAsk").disabled=true;
+  const waiting=addAiMessage("assistant","Je réfléchis…");
+
+  try{
+    const messages=[
+      {
+        role:"system",
+        content:`Tu es un professeur patient de Première générale. Réponds uniquement en français. Sois exact, pédagogique et adapté à un lycéen. Utilise le contexte du cours fourni. Ne révèle pas de raisonnement interne caché : donne seulement une explication claire, les étapes utiles, les calculs vérifiables et les exemples nécessaires. ${modes[$("#aiMode").value]}`
+      },
+      {role:"user",content:`${context}\n\nQuestion de l’élève : ${question}`}
+    ];
+    const result=await aiEngine.chat.completions.create({
+      messages,
+      temperature:0.35,
+      max_tokens:500
+    });
+    const answer=result?.choices?.[0]?.message?.content||"Je n’ai pas réussi à produire une réponse.";
+    waiting.textContent=answer;
+    aiConversation.push({question,answer});
+  }catch(err){
+    console.error(err);
+    waiting.className="ai-msg error";
+    waiting.textContent="Une erreur est survenue pendant la réponse. Réessaie avec une question plus courte.";
+  }finally{
+    $("#aiAsk").disabled=false;
+    $("#aiChat").scrollTop=$("#aiChat").scrollHeight;
+  }
+}
+
+$("#aiFab").onclick=()=>toggleAi();
+$("#aiClose").onclick=()=>toggleAi(false);
+$("#aiLoad").onclick=initLocalAi;
+$("#aiAsk").onclick=askLocalAi;
+$("#aiQuestion").addEventListener("keydown",e=>{
+  if(e.key==="Enter"&&!e.shiftKey){
+    e.preventDefault();
+    askLocalAi();
+  }
+});
+$("#aiClear").onclick=()=>{
+  aiConversation=[];
+  $("#aiChat").innerHTML='<div class="ai-msg assistant">Conversation effacée. Pose une nouvelle question sur le chapitre ouvert.</div>';
+};
+
+function updateProgress(){
+  const total=totalChapters(),done=completedChapters(),pct=Math.round(done/total*100);
+  $("#miniFill").style.width=pct+"%";$("#miniText").textContent=pct+" %";
+  renderProgress();
+}
+function renderProgress(){
+  const total=totalChapters(),done=completedChapters(),selected=selectedIds();
+  $("#progressStats").innerHTML=`<div class="stat"><strong>${done}</strong>chapitres maîtrisés</div><div class="stat"><strong>${total}</strong>chapitres disponibles</div><div class="stat"><strong>${Math.round(done/total*100)} %</strong>progression globale</div><div class="stat"><strong>${selected.length}/3</strong>spécialités choisies</div>`;
+  $("#progressDetail").innerHTML=SUBJECTS.map(s=>{
+    const d=s.chapters.filter((_,i)=>isDone(s.id,i)).length,p=Math.round(d/s.chapters.length*100);
+    return `<div style="margin:12px 0"><div style="display:flex;justify-content:space-between;gap:10px"><b>${s.icon} ${esc(s.short)}</b><span>${d}/${s.chapters.length}</span></div><div class="track"><div class="fill" style="width:${p}%;background:${s.color}"></div></div></div>`;
+  }).join("");
+}
+function renderSources(){
+  $("#sourceList").innerHTML=SOURCES.map(s=>`<div class="source-item"><b>${esc(s.label)}</b><br><a href="${esc(s.url)}" target="_blank" rel="noopener">Ouvrir la source officielle</a></div>`).join("");
+}
+$("#resetBtn").onclick=()=>{
+  if(!confirm("Réinitialiser la progression, les scores et la sélection ?"))return;
+  Object.keys(storage).filter(k=>k.startsWith("allsp_")).forEach(k=>storage.removeItem(k));
+  renderAll();updateProgress();
+};
+
+function renderAll(){
+  renderHome();renderSubjects($("#subjectSearch")?.value||"");renderMyPath();renderQuizHub();renderSources();updateProgress();
+  resetMystery();newMatch();newTf();updateAiContext();
+}
+renderAll();
+</script>
+</body>
+</html>
